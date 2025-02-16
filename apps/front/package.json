@@ -6,7 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint-next": "next lint",
+    "lint": "eslint --fix",
+    "format": "prettier --write",
+    "lint-staged": "lint-staged --concurrent=false"
+  },
+  "lint-staged": {
+    "*.{js, jsx,ts,tsx}": [
+      "npm run lint",
+      "npm run format"
+    ]
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -22,6 +31,8 @@
     "tailwindcss": "^3.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
-    "@eslint/eslintrc": "^3"
+    "@eslint/eslintrc": "^3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1"
   }
 }

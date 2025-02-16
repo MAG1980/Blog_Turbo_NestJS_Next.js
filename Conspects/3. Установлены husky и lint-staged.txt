@@ -1,0 +1,79 @@
+1. $ npm install husky --save-dev
+
+2. $ npm install --save-dev lint-staged
+
+3. $ npx husky install
+husky - install command is DEPRECATED
+Создан каталог .husky
+Создан файл .husky/pre-commit
+
+4. Добавить команду в файл .husky/pre-commit:
+    npm run pre-commit
+
+5. В корневой package.json добавить скрипт:
+    "pre-commit": "turbo lint-staged --concurrency=1"
+
+6. В свойство "tasks" в turbo.json добавить задачу:
+    "lint-staged": {
+        "dependsOn": ["^lint-staged"]
+    },
+
+7. В package.json каждой рабочей области добавить:
+    "lint-staged": "lint-staged --concurrent=false",
+    "lint-staged": {
+      "*.{js, jsx,ts,tsx}": [
+        "npm run lint",
+        "npm run format"
+      ]
+    },
+
+8. В package.json Next.js добавить скрипты:
+    "lint": "eslint --fix",
+    "format": "prettier --write",
+
+9. В каталоге Next.js создать файлы
+.eslintrc.json
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@next/next/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "react/react-in-jsx-scope": "off"
+  }
+}
+
+и
+.prettierrc.json
+{
+	"semi": true,
+	"singleQuote": true,
+	"printWidth": 80,
+	"trailingComma": "es5",
+	"plugins": ["prettier-plugin-tailwindcss"]
+}
+
+10. В package.json Next.js добавлены devDependencies:
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1"
+  }
+
+11. Чтобы избавиться от ошибки:
+TypeError: Error while loading rule '@typescript-eslint/no-unused-expressions': Cannot read properties of undefined (reading 'allowShortCircuit')
+в package.json NestJS пришлось понизить версии пакетов:
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",

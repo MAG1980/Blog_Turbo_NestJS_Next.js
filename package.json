@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "Turbo run lint"
+    "lint": "Turbo run lint",
+    "pre-commit": "turbo lint-staged --concurrency=1"
   },
   "packageManager": "npm@10.9.2",
   "workspaces": [
@@ -15,6 +16,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "turbo": "^2.4.2"
   }
 }

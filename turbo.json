@@ -15,6 +15,9 @@
     "prisma:studio": {
       "persistent": true,
       "cache": false
+    },
+    "lint-staged": {
+      "dependsOn": ["^lint-staged"]
     }
   }
 }
