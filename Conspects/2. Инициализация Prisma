@@ -1,0 +1,9 @@
+$ npm i -D prisma
+$ npx prisma init --datasource-provider sqlite
+Провайдером БД выбрана sqlite.
+Создана схема данных Prisma.
+Описаны модели Prisma.
+Создана начальная миграция Prisma:
+    $ npx prisma migrate dev --name init
+Запуск Prisma Studio:
+    $ npx prisma studio
