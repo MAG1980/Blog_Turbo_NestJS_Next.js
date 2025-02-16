@@ -5,5 +5,14 @@ $ npx prisma init --datasource-provider sqlite
 Описаны модели Prisma.
 Создана начальная миграция Prisma:
     $ npx prisma migrate dev --name init
-Запуск Prisma Studio:
+
+Запуск Prisma Studio из папки /apps/server:
     $ npx prisma studio
+
+Для запуска Prisma Studio из другого места:
+    $ npx prisma studio --schema='/location/to/schema.prisma'
+например, из корня приложения:$ npx prisma studio --schema='apps/server'
+    $ npx prisma studio --schema='apps/server'
+Чтобы эта команда сработала, нужно добавить
+  previewFeatures = ["prismaSchemaFolder"]
+в generator client в файле /apps/server/prisma/schema.prisma
