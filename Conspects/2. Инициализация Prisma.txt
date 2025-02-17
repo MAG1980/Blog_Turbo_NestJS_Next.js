@@ -16,3 +16,6 @@ $ npx prisma init --datasource-provider sqlite
 Чтобы эта команда сработала, нужно добавить
   previewFeatures = ["prismaSchemaFolder"]
 в generator client в файле /apps/server/prisma/schema.prisma
+
+Очистить базу данных:
+$ npx prisma migrate reset

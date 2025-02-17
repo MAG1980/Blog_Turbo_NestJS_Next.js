@@ -1,0 +1,5 @@
+1. В каталог NestJS установить Faker
+    $ npm i @faker-js/faker
+
+2. В каталоге prisma создать файл seed.ts
+

@@ -17,7 +17,7 @@ model User {
   email     String
   bio       String?
   avatar    String?
-  password  String
+  password  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -56,7 +56,7 @@ model Comment {
   updatedAt DateTime @updatedAt
 
   post   Post @relation(fields: [postId], references: [id])
-  author User @relation(fields: [id], references: [id])
+  author User @relation(fields: [authorId], references: [id])
 
   @@map("comments")
 }
