@@ -19,3 +19,7 @@ $ npx prisma init --datasource-provider sqlite
 
 Очистить базу данных:
 $ npx prisma migrate reset
+
+Увеличить время ожидания пула соединений БД можно передав в строку подключения search-parameter pool_timeout, например 
+до 20 секунд:
+DATABASE_URL="file:./dev.db?pool_timeout=20"
