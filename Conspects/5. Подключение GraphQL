@@ -1,0 +1,28 @@
+1. Установить пакеты:
+    $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+
+ 2. Зарегистрировать GraphQLModule, импортированный из @nestjs/graphql в AppModule со следующими настройками:
+    //Code First
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+          driver: ApolloDriver,
+          autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+          sortSchema: true,
+          debug: true,
+          playground: true,
+        }),
+
+ 3. Очень полезное руководство:
+    https://www.tomray.dev/nestjs-prisma
+
+ 4. Перед запуском приложения необходимо создать хотя бы один resolver,
+ чтобы не возникала ошибка:
+    "GraphQLError: Query root type must be provided."
+
+ 5. Обратить внимание, что декоратор @Query необходимо импортировать из @nestjs/graphql, а не из @nestjs/common.
+ Иначе будет возникать ошибка:
+    "error TS1241: Unable to resolve signature of method decorator when called as an expression.
+       Argument of type 'TypedPropertyDescriptor<() => string>' is not assignable to parameter of type 'number'."
+
+ 5. Добавить созданный resolver в массив зависимостей соответствующего модуля.
+
+
