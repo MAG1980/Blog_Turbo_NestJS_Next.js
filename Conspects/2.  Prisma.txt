@@ -3,8 +3,17 @@ $ npx prisma init --datasource-provider sqlite
 Провайдером БД выбрана sqlite.
 Создана схема данных Prisma.
 Описаны модели Prisma.
-Создана начальная миграция Prisma:
+
+
+    Создание миграции и генерация клиента Prisma
+Создать миграцию с помощью Prisma CLI:
     $ npx prisma migrate dev --name init
+Сгенерировать Prisma Client с помощью команды
+    $ npx prisma generate
+По умолчанию Prisma Client генерируется в папку node_modules/.prisma/client, но можно указать и другое расположение. 2
+Важно каждый раз генерировать клиент Prisma после каждого изменения в Prisma схеме,
+чтобы обновить сгенерированный код Prisma Client.
+
 
 Запуск Prisma Studio из папки /apps/server:
     $ npx prisma studio
