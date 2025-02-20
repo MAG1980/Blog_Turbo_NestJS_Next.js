@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppResolver } from './app.resolver';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppResolver } from './app.resolver';
       debug: true,
       playground: true,
     }),
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

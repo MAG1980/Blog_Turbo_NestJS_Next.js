@@ -23,3 +23,8 @@ $ npx prisma migrate reset
 Увеличить время ожидания пула соединений БД можно передав в строку подключения search-parameter pool_timeout, например 
 до 20 секунд:
 DATABASE_URL="file:./dev.db?pool_timeout=20"
+
+Чтобы PrismaService был доступен во всем приложении, нужно импортировать PrismaModule в AppModule.
+При этом PrismaModule должен быть декорирован @Global(), чтобы он был доступен во всем приложении.
+
+В отличие от TypeORM при использовании Prisma с GraphQL описывать свойства сущностей приходится не только в модели (schema.prisma), но и в entities.
