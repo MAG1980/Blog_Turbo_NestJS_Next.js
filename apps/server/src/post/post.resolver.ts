@@ -1,13 +1,19 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, ResolveField, Args } from '@nestjs/graphql';
 import { PostService } from './post.service';
-import { Post } from './entities/post.entity';
+import { PostEntity } from './entities/post.entity';
+import { UserEntity } from '../user/entities/user.entity';
 
-@Resolver(() => Post)
+@Resolver(() => PostEntity)
 export class PostResolver {
   constructor(private readonly postService: PostService) {}
 
-  @Query(() => [Post], { name: 'posts' })
+  @Query(() => [PostEntity], { name: 'posts' })
   findAll() {
     return this.postService.findAll();
+  }
+
+  @ResolveField('author', () => UserEntity)
+  async author(@Args('id') id: number) {
+    return { id };
   }
 }

@@ -1,7 +1,11 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { CommentEntity } from '../../comment/entities/comment.entity';
+import { UserEntity } from '../../user/entities/user.entity';
+import { TagEntity } from '../../tag/entities/tag.entity';
+import { LikeEntity } from '../../like/entities/like.entity';
 
 @ObjectType()
-export class Post {
+export class PostEntity {
   @Field(() => Int)
   id: number;
 
@@ -20,12 +24,24 @@ export class Post {
   @Field(() => Boolean)
   published: boolean;
 
-  /*  @Field(() => Int)
-  authorId: number;*/
+  @Field(() => Int)
+  authorId: number;
 
   @Field()
   createdAt: Date;
 
   @Field()
   updatedAt: Date;
+
+  @Field(() => CommentEntity)
+  comments: CommentEntity[];
+
+  @Field(() => UserEntity)
+  author: UserEntity;
+
+  @Field(() => [TagEntity])
+  tags: TagEntity[];
+
+  @Field(() => [LikeEntity])
+  likes: LikeEntity[];
 }

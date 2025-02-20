@@ -7,6 +7,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppResolver } from './app.resolver';
 import { PostModule } from './post/post.module';
+import { UserModule } from './user/user.module';
+import { CommentModule } from './comment/comment.module';
+import { TagModule } from './tag/tag.module';
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -19,6 +23,10 @@ import { PostModule } from './post/post.module';
       playground: true,
     }),
     PostModule,
+    UserModule,
+    CommentModule,
+    TagModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

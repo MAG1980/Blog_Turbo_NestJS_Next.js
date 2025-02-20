@@ -2,23 +2,130 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CommentEntity {
+  author: UserEntity!
+  authorId: Int!
+  content: String!
+  createdAt: DateTime!
+  id: Int!
+  post: PostEntity!
+  postId: Float!
+  updatedAt: DateTime!
+}
+
+input CreateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateLikeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateTagInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
-type Post {
+type LikeEntity {
+  createdAt: DateTime!
+  post: PostEntity!
+  postId: Int!
+  user: UserEntity!
+  userId: Int!
+}
+
+type Mutation {
+  createComment(createCommentInput: CreateCommentInput!): CommentEntity!
+  createLike(createLikeInput: CreateLikeInput!): LikeEntity!
+  createTag(createTagInput: CreateTagInput!): TagEntity!
+  createUser(createUserInput: CreateUserInput!): UserEntity!
+  removeComment(id: Int!): CommentEntity!
+  removeLike(id: Int!): LikeEntity!
+  removeTag(id: Int!): TagEntity!
+  removeUser(id: Int!): UserEntity!
+  updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
+  updateLike(updateLikeInput: UpdateLikeInput!): LikeEntity!
+  updateTag(updateTagInput: UpdateTagInput!): TagEntity!
+  updateUser(updateUserInput: UpdateUserInput!): UserEntity!
+}
+
+type PostEntity {
+  author(id: Float!): UserEntity!
+  authorId: Int!
+  comments: CommentEntity!
   content: String!
   createdAt: DateTime!
   id: Int!
+  likes: [LikeEntity!]!
   published: Boolean!
   slug: String
+  tags: [TagEntity!]!
   thumbnail: String
   title: String!
   updatedAt: DateTime!
 }
 
 type Query {
+  comment(id: Int!): CommentEntity!
   getHelloWorld: String!
-  posts: [Post!]!
+  like(id: Int!): LikeEntity!
+  posts: [PostEntity!]!
+  tag(id: Int!): TagEntity!
+  user(id: Int!): UserEntity!
+}
+
+type TagEntity {
+  id: Int!
+  name: String!
+  posts: [PostEntity!]!
+}
+
+input UpdateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateLikeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateTagInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type UserEntity {
+  avatar: String
+  bio: String
+  comments: [CommentEntity!]!
+  createdAt: DateTime!
+  email: String!
+  id: Int!
+  likes: [LikeEntity!]!
+  name: String!
+  password: String
+  posts: [PostEntity!]!
+  updatedAt: DateTime!
 }
