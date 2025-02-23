@@ -7,13 +7,15 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppResolver } from './app.resolver';
 import { PostModule } from './post/post.module';
-import { UserModule } from './user/user.module';
 import { CommentModule } from './comment/comment.module';
 import { TagModule } from './tag/tag.module';
 import { LikeModule } from './like/like.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -23,10 +25,10 @@ import { LikeModule } from './like/like.module';
       playground: true,
     }),
     PostModule,
-    UserModule,
     CommentModule,
     TagModule,
     LikeModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

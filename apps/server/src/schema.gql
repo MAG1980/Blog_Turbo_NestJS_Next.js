@@ -29,8 +29,11 @@ input CreateTagInput {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  avatar: String
+  bio: String
+  email: String!
+  name: String!
+  password: String!
 }
 
 """
@@ -55,6 +58,7 @@ type Mutation {
   removeLike(id: Int!): LikeEntity!
   removeTag(id: Int!): TagEntity!
   removeUser(id: Int!): UserEntity!
+  signIn(signInInput: SignInInput!): String!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
   updateLike(updateLikeInput: UpdateLikeInput!): LikeEntity!
   updateTag(updateTagInput: UpdateTagInput!): TagEntity!
@@ -86,6 +90,11 @@ type Query {
   user(id: Int!): UserEntity!
 }
 
+input SignInInput {
+  email: String!
+  password: String!
+}
+
 type TagEntity {
   id: Int!
   name: String!
@@ -111,9 +120,12 @@ input UpdateTagInput {
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  avatar: String
+  bio: String
+  email: String
   id: Int!
+  name: String
+  password: String
 }
 
 type UserEntity {

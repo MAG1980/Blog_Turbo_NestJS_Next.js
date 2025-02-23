@@ -1,0 +1,142 @@
+1. Установить пакет
+    $ npm i --save @nestjs/config
+
+2. Импортировать ConfigModule в AppModule
+    import { ConfigModule } from '@nestjs/config';
+    @Module({
+      imports: [ConfigModule.forRoot()],
+    })
+
+3. Передать объект с настройками в метод ConfigModule.forRoot().
+По умолчанию ConfigModule ищет файл .env в корневом каталоге приложения:
+    на том же уровне, что и package.json (не на уровне корня monorepo).
+Полезные свойства:
+    envFilePath
+    ignoreEnvFile
+    isGlobal: true - глобально во всем приложении
+    cache: true - чтобы повысить производительность метода ConfigService#get
+    expandVariables: true - чтобы использовать расширение переменных окружения
+
+Nest инкапсулирует провайдеров в область видимости модуля.
+ Невозможно использовать провайдеров модуля в другом месте, не импортировав сначала инкапсулирующий модуль.
+
+Если требуется предоставить набор провайдеров,
+которые должны быть доступны везде по умолчанию
+(например, вспомогательные функции, подключения к базе данных и т. д.),
+следует сделать модуль глобальным с помощью декоратора @Global().
+
+Чтобы сделать ConfigModule глобальным, достаточно передать в объекте настроек свойство
+    isGlobal: true.
+
+Для проверки правильности настройки ConfigModule можно добавить в main.ts:
+console.log(process.env.PASSWORD_SECRET);
+
+4.В сложных приложениях удобно использовать пользовательские файлы конфигурации.
+Связанные параметры следует хранить в отдельных файлах, чтобы управлять ими независимо других параметров.
+Пользовательский файл конфигурации по умолчанию экспортирует фабричную функцию, которая возвращает объект конфигурации:
+
+//configuration.TS
+export default () => ({
+  port: parseInt(process.env.PORT, 10) || 3000,
+  database: {
+    host: process.env.DATABASE_HOST,
+    port: parseInt(process.env.DATABASE_PORT, 10) || 5432
+  }
+});
+
+Мы загружаем этот файл с помощью свойства load объекта параметров,
+который мы передаём методу ConfigModule.forRoot():
+    import configuration from './config/configuration';
+    ConfigModule.forRoot({
+          load: [configuration],
+        }),
+
+5. Конфигурационные пространства имен.
+Пользовательский файл конфигурации может вернуть объект конфигурации
+с «пространством имён» с помощью функции registerAs() из библиотеки @nestjs/config:
+
+    //config/database.config.ts
+    export default registerAs('database', () => ({
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT || 5432
+    }));
+
+Пользовательские файлы конфигурации с пространством имён загружаются как и обычные
+с моощью свойства load:
+
+    import databaseConfig from './config/database.config';
+     ConfigModule.forRoot({
+          load: [databaseConfig],
+        }),
+
+Непосредственное внедрение пространства имён даёт преимущетсва строгой типизации:
+
+    constructor(
+       @Inject(databaseConfig.KEY)
+       private dbConfig: ConfigType<typeof databaseConfig>,
+     ) {}
+
+6. Конфигурации с пространством имен в модулях
+
+Пользовательский файл конфигурации с пространством имен можно использовать в качестве объекта конфигурации для другого модуля,
+для этого служит .asProvider() метод объекта конфигурации.
+.asProvider() преобразует конфигурацию с пространством имен в поставщика,
+который затем можно передать в forRootAsync() (или любой другой эквивалентный метод) модуля, который вы хотите использовать.
+
+import databaseConfig from './config/database.config';
+
+@Module({
+  imports: [
+    TypeOrmModule.forRootAsync(databaseConfig.asProvider()),
+  ],
+})
+
+Метод .asProvider() возвращфет объект, содежащий свойство useFactory,
+который возвращает типизированный объект конфигурации благодаря инъекции названия пространства имён (inject: [databaseConfig.KEY]):
+
+    {
+      imports: [ConfigModule.forFeature(databaseConfig)],
+      useFactory: (configuration: ConfigType<typeof databaseConfig>) => configuration,
+      inject: [databaseConfig.KEY]
+    }
+
+7. Частичная регистрация конфигурации
+Не всегда требуется загрузать все файлы пользовательской конфигурации в AppModule.forRoot({load:[...})
+Для этого служит метод ConfigModule.forFeature(conf).
+Например,
+    mport databaseConfig from './config/database.config';
+    @Module({
+      imports: [ConfigModule.forFeature(databaseConfig)],
+    })
+    export class DatabaseModule {}
+
+При частичной регистрации конфигурации в некоторых случаях для получения доступа к переменным окружения,
+можеуе потреобваться использование метода onModuleInit(), а не конструктора.
+
+8. Расширяемые переменные
+NestJS поддерживает расширение переменных среды:
+    APP_URL=mywebsite.com
+    SUPPORT_EMAIL=support@${APP_URL}
+
+9. Использование ConfigService в main.ts
+    const configService = app.get(ConfigService);
+    const port = configService.get('PORT');
+
+19. Хук envVariablesLoaded служит для того, чтобы убедиться,
+что файл загружен до взаимодействия с объектом process.env,
+как показано в следующем примере:
+
+    export async function getStorageModule() {
+      await ConfigModule.envVariablesLoaded;
+      return process.env.STORAGE === 'S3' ? S3StorageModule : DefaultStorageModule;
+    }
+
+11. Валидаця переменных окружения
+Стандартная практика — генерировать исключение при запуске приложения,
+если не были заданы необходимые переменные среды или если они не соответствуют определённым правилам проверки.
+    Существуют два способа:
+Joi встроенный валидатор. С помощью Joi вы определяете схему объектов и проверяете объекты JavaScript на соответствие ей.
+Пользовательская validate() функция, которая принимает переменные среды в качестве входных данных.
+Чтобы использовать Joi, мы должны установить пакет Joi:
+
+    $ npm install --save joi
