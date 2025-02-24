@@ -1,0 +1,60 @@
+1. Установка пакетов
+    $ npm install --save @nestjs/jwt
+
+2. Импортировать JwtModule в AuthModule и передать объект с настройками в метод
+    JwtModule.register({
+          secret: process.env.JWT_SECRET,
+          signOptions: {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+          },
+        }),
+
+3. Для генерации JWT_SECRET удобно использовать команду:
+    $ openssl rand -hex 32
+
+4. Вместо использования JwtModule.register({...}) в AuthModule,
+можно использовать
+        JwtModule.registerAsync({
+          useFactory: () => ({
+            secret: process.env.JWT_SECRET,
+            signOptions: {
+              expiresIn: process.env.JWT_EXPIRES_IN,
+            },
+          }),
+        }),
+или
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
+        },
+      }),
+    }),
+
+    Чтобы иметь возможность вызывать ConfigService внутри фабричной функции,
+    передаваемой в свойство useFactory декоратора @Module(),
+    необходимо предварительно импортировать ConfigModule и внедрить ConfigService,
+    передав его в свойство inject:[ConfigService],
+    после этого, его нужно передать фабричной функции в качестве параметра.
+
+5. Для генерации accessToken используется метод
+    await this.jwtService.signAsync(jwtPayload)
+где jwtPayload - относится к типу JwtAuthPayload, который необходимо создать вручную:
+    export type JwtAuthPayload = {
+      sub: {
+        id: number;
+      };
+    };
+Метод jwtService.signAsync(jwtPayload) генерирует JWT-токен из jwtPayload на основании настроек,
+которые были переданы в JwtModule.registerAsync({...}).
+
+6. При успешной валидации полученных от пользователя данных: email и password,
+в ответ ему отправляется объект, содержащий accessToken и другие данные пользователя:
+    return {
+      name: user.name,
+      avatar: user.avatar,
+      accessToken: await this.generateToken(user.id),
+    };

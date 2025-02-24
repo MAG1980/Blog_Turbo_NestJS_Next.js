@@ -42,6 +42,8 @@ export class UserService {
       where: { email },
       select: {
         id: true,
+        name: true,
+        avatar: true,
         password: true,
       },
     });

@@ -58,7 +58,7 @@ type Mutation {
   removeLike(id: Int!): LikeEntity!
   removeTag(id: Int!): TagEntity!
   removeUser(id: Int!): UserEntity!
-  signIn(signInInput: SignInInput!): String!
+  signIn(signInInput: SignInInput!): SignInResponseEntity!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
   updateLike(updateLikeInput: UpdateLikeInput!): LikeEntity!
   updateTag(updateTagInput: UpdateTagInput!): TagEntity!
@@ -93,6 +93,13 @@ type Query {
 input SignInInput {
   email: String!
   password: String!
+}
+
+type SignInResponseEntity {
+  accessToken: String!
+  avatar: String
+  id: Int!
+  name: String!
 }
 
 type TagEntity {
