@@ -1,0 +1,55 @@
+1. Подключение shadcn ui в Next.js
+    $ npx shadcn@latest init
+style: Default,
+color: Neutral,
+CSS variables: yes
+It looks like you are using React 19.
+Use --legacy-peer-deps
+
+✔ Created 1 file:
+  - src/lib/utils.ts
+
+Success! Project initialization completed.
+You may now add components.
+
+Также автоматически был создан файл ./front/components.json
+
+С учётом того, что при инициализвации Next.js в ts.config.json создан alias:
+        "paths": {
+          "@/*": ["./src/*"]
+        }
+в файле ./front/components.json необходимо автоматически созданы:
+      "aliases": {
+        "components": "@/components",
+        "utils": "@/lib/utils",
+        "ui": "@/components/ui",
+        "lib": "@/lib",
+        "hooks": "@/hooks"
+      },
+
+Пример команды для добавления компонента shadcn в проект:
+    $ npx shadcn@latest add button
+✔ Created 1 file:
+  - src/components/ui/button.tsx
+
+https://daily.dev/blog/code-splitting-with-dynamic-imports-in-nextjs
+
+
+import dynamic from "next/dynamic";
+
+const HelloComponent = dynamic(() => import("../components/hello"));
+
+
+  import dynamic from "next/dynamic";
+
+  const HelloComponent = dynamic(() =>
+    import("../components/hello").then((module) => module.HelloComponent)
+  );
+
+
+  import dynamic from "next/dynamic";
+
+  const HelloComponent = dynamic(() => import("../components/hello"), {
+    loading: () => <b>Loading...</b>,
+  });
+
