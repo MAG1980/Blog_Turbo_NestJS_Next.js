@@ -1,2 +1,11 @@
 Tailwind CSS UI Kits, Component Kits and website building tools to speed up your development pr
     https://www.tailwindtoolbox.com
+
+Использование прямого дочернего селектора
+    <div className="flex gap-2 ml-auto [&>a]:px-4 [&>a]:transition [&>a]:roudned-md">
+        <Link href="path" />
+    </div>
+ Компоненты Link при рендеринге будут преобразованы в теги <a>,
+ поэтому к ним будут применены CSS-классы, добавляемые с помощью прямого дочернего селектора &>a]:class.
+
+ [&>a:hover]:text-sky-100 [&>a:hover]:bg-sky-500 - такая комбинация цветов текста и background (100/400) выглядит очень хорошо.
