@@ -1,6 +1,7 @@
 'use client';
-import React, { PropsWithChildren, ReactNode, useState } from 'react';
+import { PropsWithChildren, ReactNode, RefObject, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useOnClickOutside } from "usehooks-ts";
 
 type Props = PropsWithChildren<{
   triggerIcon: ReactNode
@@ -9,6 +10,8 @@ type Props = PropsWithChildren<{
 
 function SideBar(props: Props) {
   const [show, setShow] = useState(false);
+  const ref = useRef(null);
+  useOnClickOutside(ref as unknown as  RefObject<HTMLElement>, () => setShow(false))
   return (
     <>
       <button
@@ -17,7 +20,9 @@ function SideBar(props: Props) {
       >
         {props.triggerIcon}
       </button>
-      <div className={cn('w-60 absolute top-0 z-10 transition-all bg-white rounded-r-md min-h-screen',
+      <div
+        ref={ ref }
+        className={ cn('w-60 absolute top-0 z-10 transition-all duration-300 bg-white rounded-r-md min-h-screen',
         {
           '-left-full': !show,
           'left-0': show,

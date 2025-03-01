@@ -1,0 +1,35 @@
+    Доступные хуки
+
+useBoolean — handles boolean state with useful utility functions.
+useClickAnyWhere — handles click events anywhere on the document.
+useCopyToClipboard — copies text to the clipboard using the Clipboard API.
+useCountdown — manages countdown.
+useCounter — manages a counter with increment, decrement, reset, and setCount functionalities.
+useDarkMode — returns the current state of the dark mode.
+useDebounceCallback — creates a debounced version of a callback function.
+useDebounceValue — returns a debounced version of the provided value, along with a function to update it.
+useDocumentTitle — sets the document title.
+useEventCallback — creates a memoized event callback.
+useEventListener — attaches event listeners to DOM elements, the window, or media query lists.
+useHover — tracks whether a DOM element is being hovered over.
+useIntersectionObserver — tracks the intersection of a DOM element with its containing element or the viewport using the Intersection Observer API.
+useInterval — creates an interval that invokes a callback function at a specified delay using the setInterval API.
+useIsClient — determines if the code is running on the client side (in the browser).
+useIsMounted — determines if the component is currently mounted.
+useIsomorphicLayoutEffect — uses either useLayoutEffect or useEffect based on the environment (client-side or server-side).
+useLocalStorage — uses the localStorage API to persist state across page reloads.
+useMap — manages a key-value Map state with setter actions.
+useMediaQuery — tracks the state of a media query using the Match Media API.
+useOnClickOutside — handles clicks outside a specified element.
+useReadLocalStorage — reads a value from localStorage, closely related to useLocalStorage().
+useResizeObserver — observes the size of an element using the ResizeObserver API.
+useScreen — tracks the screen dimensions and properties.
+useScript — dynamically loads scripts and tracking their loading status.
+useScrollLock — A custom hook that locks and unlocks scroll.
+useSessionStorage — uses the sessionStorage API to persist state across page reloads.
+useStep — manages and navigates between steps in a multi-step process.
+useTernaryDarkMode — manages ternary (system, dark, light) dark mode with local storage support.
+useTimeout — handles timeouts in React components using the setTimeout API.
+useToggle — manages a boolean toggle state in React components.
+useUnmount — runs a cleanup function when the component is unmounted.
+useWindowSize — tracks the size of the window.
