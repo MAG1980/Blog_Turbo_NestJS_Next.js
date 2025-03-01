@@ -21,7 +21,8 @@ function DesktopNavbar(props: Props) {
   const isScrollDown = scrollPosition > 10;
   return (
     <nav
-      className={cn('fixed transition-colors w-full z-50 text-white top-0 block', { 'bg-white text-gray-700 shadow-md': isScrollDown })}>
+      className={ cn('hidden md:block fixed top-0 w-full z-50 text-white transition-colors',
+        { 'bg-white text-gray-700 shadow-md': isScrollDown }) }>
       <div className="container flex items-center px-4 py-4">
         {props.children}
       </div>
