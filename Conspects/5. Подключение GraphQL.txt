@@ -39,4 +39,4 @@
  @Args(), @Mutation() и @Query() необходимо импортировать из @nestjs/graphql, а не из @nestjs/common.
 @Context() - используется в методах резолвера для получение контекста GraphQL целиком (аналог req в HTTP).
 
-
+При использовании fetch API все запросы (query и mutation) с Frontend к GraphQL-серверу должны выполняться методом POST.
