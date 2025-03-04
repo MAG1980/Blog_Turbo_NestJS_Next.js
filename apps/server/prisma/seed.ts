@@ -54,7 +54,11 @@ async function main() {
     title: faker.lorem.sentence(),
     slug: generateSlug(faker.lorem.sentence()),
     content: faker.lorem.paragraphs(3),
-    thumbnail: faker.image.urlLoremFlickr({ category: 'nature' }),
+    thumbnail: faker.image.urlLoremFlickr({
+      width: 320,
+      height: 240,
+      category: 'nature',
+    }),
     //Случайное число в заданной диапазоне (1-10, т.к. у нас 10 пользователей)
     authorId: faker.helpers.arrayElement(users).id,
     published: true,
