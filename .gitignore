@@ -14,3 +14,4 @@ dist
 .env.development
 .env.production
 /identifier.sqlite
+/dev.db
