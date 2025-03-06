@@ -1,5 +1,5 @@
 1. Установить пакеты:
-    $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+    $ npm i @nestjs/graphql @nestjs/apollo graphql  @apollo/server
 
  2. Зарегистрировать GraphQLModule, импортированный из @nestjs/graphql в AppModule со следующими настройками:
     //Code First

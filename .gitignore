@@ -13,3 +13,4 @@ dist
 .env.local
 .env.development
 .env.production
+/identifier.sqlite
