@@ -85,7 +85,8 @@ type Query {
   comment(id: Int!): CommentEntity!
   getHelloWorld: String!
   like(id: Int!): LikeEntity!
-  posts: [PostEntity!]!
+  posts(skip: Float, take: Float): [PostEntity!]!
+  postsTotalCount: Int!
   tag(id: Int!): TagEntity!
   user(id: Int!): UserEntity!
 }

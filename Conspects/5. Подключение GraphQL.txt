@@ -40,3 +40,14 @@
 @Context() - используется в методах резолвера для получение контекста GraphQL целиком (аналог req в HTTP).
 
 При использовании fetch API все запросы (query и mutation) с Frontend к GraphQL-серверу должны выполняться методом POST.
+
+
+GraphQL позволяет выполнять несколько запросов к БД в одном GraphQL-запросе:
+    query{
+      posts(skip:5,take:3){
+        id
+        content
+        authorId
+      }
+      postsTotalCount
+    }
