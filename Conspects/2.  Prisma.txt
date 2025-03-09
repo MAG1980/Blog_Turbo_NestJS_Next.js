@@ -31,7 +31,11 @@ $ npx prisma migrate reset
 
 Увеличить время ожидания пула соединений БД можно передав в строку подключения search-parameter pool_timeout, например 
 до 20 секунд:
-DATABASE_URL="file:./dev.db?pool_timeout=20"
+DATABASE_URL="file:./dev.db?pool_timeout=20" //помогает не всегда. Решение проблемы ниже.
+
+Окончательно решить проблему с ошибкой, возникавшей при "посеве" БД с использованием Promise.all(), хранящейся на
+медленном HDD, из-за истечения timeout, удалось передав в строку подключения connection_limit=1&socket_timeout=10:
+    DATABASE_URL="file:./dev.db?connection_limit=1&socket_timeout=10"
 
 Чтобы PrismaService был доступен во всем приложении, нужно импортировать PrismaModule в AppModule.
 При этом PrismaModule должен быть декорирован @Global(), чтобы он был доступен во всем приложении.
