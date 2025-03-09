@@ -1,8 +1,8 @@
-import qgl from 'graphql-tag'
+import qgl from 'graphql-tag';
 
 export const GET_POSTS = qgl`
-query{
-  posts{
+query posts($skip: Float, $take: Float){
+  posts(skip:$skip, take:$take){
     id
     title
     thumbnail
@@ -10,5 +10,6 @@ query{
     createdAt
     slug    
   }
+  postsTotalCount
 }
-`
+`;

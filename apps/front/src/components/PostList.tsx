@@ -1,9 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 import { Post } from '@prisma/client';
 import PostCard from '@/components/PostCard';
+import Pagination from '@/components/Pagination';
 
 type Props = PropsWithChildren & {
-  posts: Post[] | undefined
+  posts: Post[] | undefined,
+  currentPage: number,
+  totalPages: number
 }
 
 function PostList(props: Props) {
@@ -17,6 +20,11 @@ function PostList(props: Props) {
           <PostCard key={post.id} {...post} />
         ))}
       </div>
+      <Pagination
+        className="mt-4"
+        currentPage={props.currentPage}
+        totalPages={props.totalPages}
+      />
     </section>
   );
 }

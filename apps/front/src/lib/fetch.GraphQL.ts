@@ -14,7 +14,7 @@ export const fetchGraphQL = async (query: string, variables = {}) => {
     }),
   });
 
-  const result: { data?: { posts: Post[] }, errors?: never } = await response.json();
+  const result: { data: { posts: Post[], postsTotalCount: number }, errors?: never } = await response.json();
 
   if (result.errors) {
     console.log('GraphQL error: ', result.errors);
