@@ -50,7 +50,7 @@ async function main() {
     ),
   });
 
-  const posts = Array.from({ length: 20 }).map(() => ({
+  const posts = Array.from({ length: 100 }).map(() => ({
     title: faker.lorem.sentence(),
     slug: generateSlug(faker.lorem.sentence()),
     content: faker.lorem.paragraphs(3),
