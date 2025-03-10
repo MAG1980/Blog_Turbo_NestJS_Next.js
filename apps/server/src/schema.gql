@@ -66,13 +66,14 @@ type Mutation {
 }
 
 type PostEntity {
-  author(id: Float!): UserEntity!
+  author: UserEntity!
   authorId: Int!
-  comments: CommentEntity!
+  comments: [CommentEntity!]!
   content: String!
   createdAt: DateTime!
   id: Int!
   likes: [LikeEntity!]!
+  likesCount: Int!
   published: Boolean!
   slug: String
   tags: [TagEntity!]!
@@ -85,6 +86,7 @@ type Query {
   comment(id: Int!): CommentEntity!
   getHelloWorld: String!
   like(id: Int!): LikeEntity!
+  postById(id: Int!): PostEntity!
   posts(skip: Float, take: Float): [PostEntity!]!
   postsTotalCount: Int!
   tag(id: Int!): TagEntity!

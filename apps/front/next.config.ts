@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   experimental:{
     externalDir: true
   },
-/*  images: {
+  images: {
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
- */
 };
 
 export default nextConfig;

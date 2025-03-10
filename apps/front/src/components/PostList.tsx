@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
-import { Post } from '@prisma/client';
 import PostCard from '@/components/PostCard';
 import Pagination from '@/components/Pagination';
+import { PostEntity } from "server/dist/src/post/entities/post.entity";
 
 type Props = PropsWithChildren & {
-  posts: Post[] | undefined,
+  posts: PostEntity[],
   currentPage: number,
   totalPages: number
 }

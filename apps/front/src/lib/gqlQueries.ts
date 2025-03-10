@@ -13,3 +13,28 @@ query posts($skip: Float, $take: Float){
   postsTotalCount
 }
 `;
+
+export const GET_POST_BY_ID = qgl`
+query($id:Int!){
+  postById(id:$id){
+    id
+    title
+    thumbnail
+    content
+    likesCount
+    createdAt
+      author{
+      id
+      name
+    }
+    comments{
+      id
+      content
+    }
+    tags{
+      id
+      name
+    }   
+  }
+}
+`

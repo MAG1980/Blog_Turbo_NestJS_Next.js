@@ -1,16 +1,17 @@
 import {
-  Resolver,
-  Query,
-  ResolveField,
   Args,
   Context,
   Int,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { PostEntity } from './entities/post.entity';
+import { CommentEntity } from '../comment/entities/comment.entity';
 import { UserEntity } from '../user/entities/user.entity';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
+import { TagEntity } from '../tag/entities/tag.entity';
 
 @Resolver(() => PostEntity)
 export class PostResolver {
@@ -28,11 +29,30 @@ export class PostResolver {
     return this.postService.findAll({ skip, take });
   }
 
-  @ResolveField('author', () => UserEntity)
-  async author(@Args('id') id: number) {
-    return { id };
+  @Query(() => PostEntity, { name: 'postById' })
+  findOneById(@Args('id', { type: () => Int }) id: number) {
+    return this.postService.findOneById(id);
   }
 
+  @ResolveField('author', () => UserEntity, { name: 'author' })
+  getAuthor(@Parent() post: PostEntity) {
+    return this.postService.getAuthor(post.authorId);
+  }
+
+  @ResolveField(() => [CommentEntity], { name: 'comments' })
+  getComments(@Parent() post: PostEntity) {
+    return this.postService.getComments(post.id);
+  }
+
+  @ResolveField(() => [TagEntity], { name: 'tags' })
+  getTags(@Parent() post: PostEntity) {
+    return this.postService.getTags(post.id);
+  }
+
+  @ResolveField(() => Int, { name: 'likesCount' })
+  getLikesCount(@Parent() post: PostEntity) {
+    return this.postService.getLikesCount(post.id);
+  }
   @Query(() => Int, { name: 'postsTotalCount' })
   getPostsTotalCount() {
     return this.postService.getPostsTotalCount();

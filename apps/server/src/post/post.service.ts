@@ -19,4 +19,52 @@ export class PostService {
   async getPostsTotalCount() {
     return await this.prismaService.post.count();
   }
+
+  async findOneById(id: number) {
+    return await this.prismaService.post.findUnique({
+      where: { id },
+      include: {
+        author: true,
+        tags: true,
+      },
+    });
+  }
+
+  async getAuthor(authorId: number) {
+    return await this.prismaService.user.findUnique({
+      where: {
+        id: authorId,
+      },
+    });
+  }
+
+  async getComments(id: number) {
+    return await this.prismaService.comment.findMany({
+      where: {
+        postId: id,
+      },
+    });
+  }
+
+  async getTags(id: number) {
+    return await this.prismaService.tag.findMany({
+      where: {
+        posts: {
+          some: {
+            id: {
+              equals: id,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async getLikesCount(id: number) {
+    return await this.prismaService.like.count({
+      where: {
+        postId: id,
+      },
+    });
+  }
 }

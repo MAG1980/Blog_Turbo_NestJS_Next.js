@@ -1,0 +1,12 @@
+    dangerouslySetInnerHTML — это свойство HTML-элементов в приложении React, которое позволяет программно устанавливать их содержимое.
+Оно заменяет innerHTML, используемый в браузере DOM
+ Чаще всего dangerouslySetInnerHTML применяют в приложениях, где нужно отобразить отформатированный текст в элементе div.
+Однако использование dangerouslySetInnerHTML может представлять угрозу безопасности, т.к.
+оно открывает возможности для атак типа XSS, если вставляемый HTML-код не фильтруется и не обезвреживается.
+Поэтому при использовании dangerouslySetInnerHTML следует быть осторожным и всегда обезвреживать любой пользовательский ввод,
+который может быть вставлен в качестве HTML.
+
+    Для этой цели можно использовать библиотеку isomorphic-dompurify. В отличие от dompurify isomorphic-dompurify не
+вызывает ошибок в SSR.
+    import DOMPurify from "isomorphic-dompurify";
+    <div dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(post?.content) } }></div>
