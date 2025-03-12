@@ -1,5 +1,6 @@
 export const fetchGraphQL = async (query: string, variables = {}) => {
-  console.log(process.env.BACKEND_URL);
+  console.log({ query, variables })
+
   const response = await fetch(process.env.BACKEND_URL || 'http://localhost:5000/graphql', {
     method: 'POST',
     headers: {

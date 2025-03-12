@@ -1,26 +1,50 @@
 'use client'
-import React from 'react';
+import React, { useActionState } from 'react';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import SubmitButton from "@/components/SubmitButton";
+import { signUp } from "@/lib/actions/authActions";
 
 function SignUpForm() {
+  const [state, action] = useActionState(signUp, undefined)
   return (
-    <form className={ "flex flex-col gap-2" }>
+    <form
+      action={ action }
+      className={ "flex flex-col gap-2" }
+    >
+      { !!state?.message && (
+        <p className="text-red-500 text-sm">{ state.message }</p>
+      ) }
       <div>
         <Label htmlFor="name">Имя</Label>
         <Input id="name" name="name" placeholder="Иван Иванов"/>
       </div>
+      { !!state?.errors?.name && (
+        <p className="text-red-500 text-sm">{ state.errors.name }</p>
+      ) }
 
       <div>
         <Label htmlFor="email">Адрес электронной почты</Label>
         <Input id="email" name="email" placeholder="name@example.mail.com"/>
       </div>
+      { !!state?.errors?.email && (
+        <p className="text-red-500 text-sm">{ state.errors.email }</p>
+      ) }
 
       <div>
         <Label htmlFor="password">Пароль</Label>
         <Input id="password" name="password" type="password"/>
       </div>
+      { !!state?.errors?.password && (
+        <div className="text-red-500 text-sm">
+          <p>Пароль должен удовлетворять следующим требованиям:</p>
+          <ul>
+            { state.errors.password.map(error => (
+              <li key={ error }>{ error }</li>
+            )) }
+          </ul>
+        </div>
+      ) }
 
       <SubmitButton>Зарегистрироваться</SubmitButton>
     </form>

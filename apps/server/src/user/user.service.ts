@@ -17,6 +17,7 @@ export class UserService {
       data: { password: hashedPassword, ...user },
       select: {
         id: true,
+        name: true,
       },
     });
   }
