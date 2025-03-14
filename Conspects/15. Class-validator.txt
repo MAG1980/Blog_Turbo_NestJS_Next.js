@@ -1,0 +1,25 @@
+Реализация проверки совпадения пароля и его повторного набора с помощью декоратора @ValidateIf()
+ ...
+     @IsStrongPassword({
+        minLength: 8,
+        minSymbols: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minLowercase: 1,
+      })
+      @Field()
+      password: string;
+
+      @IsString()
+      @IsDefined()
+      @IsIn([Math.random()], {
+        message: 'Passwords do not match',
+      })
+      @ValidateIf((o) => o.password !== o.repeatPassword)
+      repeatPassword: string;
+
+ @IsIn(values: any[]) - Проверяет, если значение находится в массиве допустимых значений.
+
+ Декоратор условной проверки (@ValidateIf) можно использовать для игнорирования валидаторов свойства, если предоставленная функция условия возвращает false. Функция условия принимает проверяемый объект и должна возвращать boolean.
+ В приведенном выше примере правила проверки, применяемые к example, не будут выполняться, если otherProperty объекта не
+  равно "value". При ложном условии все декораторы проверки игнорируются, включая isDefined.
