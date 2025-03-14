@@ -17,7 +17,7 @@ function SignUpForm() {
       ) }
       <div>
         <Label htmlFor="name">Имя</Label>
-        <Input id="name" name="name" placeholder="Иван Иванов"/>
+        <Input id="name" name="name" placeholder="Иван Иванов" defaultValue={ state?.data?.name }/>
       </div>
       { !!state?.errors?.name && (
         <p className="text-red-500 text-sm">{ state.errors.name }</p>
@@ -25,7 +25,7 @@ function SignUpForm() {
 
       <div>
         <Label htmlFor="email">Адрес электронной почты</Label>
-        <Input id="email" name="email" placeholder="name@example.mail.com"/>
+        <Input id="email" name="email" placeholder="name@example.mail.com" defaultValue={ state?.data?.email }/>
       </div>
       { !!state?.errors?.email && (
         <p className="text-red-500 text-sm">{ state.errors.email }</p>
@@ -33,7 +33,12 @@ function SignUpForm() {
 
       <div>
         <Label htmlFor="password">Пароль</Label>
-        <Input id="password" name="password" type="password"/>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          defaultValue={ state?.data?.password }
+        />
       </div>
       { !!state?.errors?.password && (
         <div className="text-red-500 text-sm">

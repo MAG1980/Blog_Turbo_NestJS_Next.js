@@ -1,7 +1,7 @@
 'use server';
 import { print } from 'graphql';
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
-import { GET_POST_BY_ID, GET_POSTS } from '@/lib/gqlQueries';
+import { GET_POST_BY_ID, GET_POSTS } from '@/lib/gql/queries';
 import { transformTakeSkip } from '@/lib/helpers';
 import { PostEntity } from "server/dist/src/post/entities/post.entity";
 

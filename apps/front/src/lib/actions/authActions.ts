@@ -1,11 +1,11 @@
 "use server"
 
 import { print } from 'graphql';
+import { redirect } from "next/navigation";
 import { SignUpFormState } from "@/lib/types";
 import { SignUpFormSchema } from "@/lib/zodSchemas";
 import { fetchGraphQL } from "@/lib/fetch.GraphQL";
-import { CREATE_USER } from "@/lib/gql/mutations/createUser.mutation";
-import { redirect } from "next/navigation";
+import { CREATE_USER } from "@/lib/gql/mutations";
 
 export const signUp =
   async (
@@ -20,6 +20,7 @@ export const signUp =
 
     if ( !validatedFields.success ) {
       return {
+        data: Object.fromEntries(formData.entries()),
         errors: validatedFields.error.flatten().fieldErrors
       }
     }
@@ -37,6 +38,7 @@ export const signUp =
 
     if ( data.errors ) {
       return {
+        data: Object.fromEntries(formData.entries()),
         message: "Something went wrong: " + data.errors
       }
     }
