@@ -6,6 +6,7 @@ import { SignUpFormState as SignInFormState } from '@/lib/types';
 import { SignInFormSchema } from '@/lib/zodSchemas';
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
 import { SIGN_IN } from '@/lib/gql/mutations';
+import { createSession } from '@/lib/session';
 
 export const signIn = async (state: SignInFormState, formData: FormData): Promise<SignInFormState> => {
   const validatedFields = SignInFormSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -19,7 +20,7 @@ export const signIn = async (state: SignInFormState, formData: FormData): Promis
 
   console.log({ formData, validatedFields });
 
-  const data = fetchGraphQL(print(SIGN_IN), {
+  const data = await fetchGraphQL(print(SIGN_IN), {
     signInInput: {
       ...validatedFields.data,
     },
@@ -39,7 +40,17 @@ export const signIn = async (state: SignInFormState, formData: FormData): Promis
     };
   }
 
-  //TO DO: create a session
+  console.log({ data });
+
+  await createSession({
+    user: {
+      id: data.signIn.id,
+      name: data.signIn.name,
+      avatar: data.signIn.avatar,
+    },
+    accessToken: data.signIn.accessToken,
+  });
+
   revalidatePath('/');
   redirect('/');
 };
