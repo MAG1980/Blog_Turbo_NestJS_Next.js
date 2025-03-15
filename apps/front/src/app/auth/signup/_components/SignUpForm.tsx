@@ -3,7 +3,7 @@ import React, { useActionState } from 'react';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import SubmitButton from "@/components/SubmitButton";
-import { signUp } from "@/lib/actions/authActions";
+import { signUp } from "@/lib/actions/auth";
 
 function SignUpForm() {
   const [state, action] = useActionState(signUp, undefined)
