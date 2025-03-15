@@ -42,5 +42,5 @@ export const signUp =
       };
     }
 
-    redirect('/auth/signin');
+    redirect('/auth/sign-in');
   };

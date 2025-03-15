@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import SignInForm from '@/app/auth/signin/_components/SignInForm';
+import { SignInForm } from '@/app/auth/sign-in/_components/SignInForm';
 
 function SignInPage() {
   return (

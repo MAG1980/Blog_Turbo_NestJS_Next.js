@@ -26,6 +26,6 @@ export async function getSession() {
     return payload as Session;
   } catch (error) {
     console.error('Failed to verify JWT token from cookie "session"', error);
-    redirect('/auth/signin');
+    redirect('/auth/sign-in');
   }
 }

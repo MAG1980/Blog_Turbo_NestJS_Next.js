@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import SubmitButton from '@/components/SubmitButton';
 import { signIn } from '@/lib/actions/auth';
 
-function SignInForm() {
+export const SignInForm = () => {
   const [state, action] = useFormState(signIn, undefined);
   return (
     <form action={action} className="flex flex-col gap-2">
@@ -43,6 +43,4 @@ function SignInForm() {
       <SubmitButton>Войти</SubmitButton>
     </form>
   );
-}
-
-export default SignInForm;
+};
