@@ -1,6 +1,6 @@
 import Hero from '@/components/hero';
 import PostList from '@/components/PostList';
-import { fetchPosts } from '@/lib/actions/postActions';
+import { fetchPosts } from '@/lib/actions/post';
 import { DEFAULT_PAGE_SIZE } from 'server/dist/src/constants';
 
 type Props = {

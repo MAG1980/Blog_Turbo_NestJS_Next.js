@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import { fetchPostById } from "@/lib/actions/postActions";
+import { fetchPostById } from "@/lib/actions/post";
 import { SanitizedContent } from "@/app/blog/[slug]/[id]/_components/SanitizedContent";
 import CommentsList from "@/app/blog/[slug]/[id]/_components/CommentsList";
 import TagsList from "@/app/blog/[slug]/[id]/_components/TagsList";
@@ -14,7 +14,6 @@ type Props = {
 async function PostPage({ params }: Props) {
   const postId = ( await params ).id
   const post = await fetchPostById(+postId)
-  console.log({ post })
 
   return (
     <main className="container mx-auto px-4 py-8 mt-16">
