@@ -6,10 +6,12 @@ type Props = {
 
 function TagsList({ tags }: Props) {
   return (
-    <div className="flex justify-end">{ tags.map(tag => (
-      <p className="bg-emerald-400 px-3 ml-2 rounded-md" key={ tag.id }>{ tag.name }</p>
-    ))
-    }</div>
+<div className="flex flex-row-reverse">
+  <div className="flex justify-end flex-wrap w-1/2 gap-2">{ tags.map(tag => (
+    <p className="bg-emerald-400 px-3 rounded-md" key={ tag.id }>{ tag.name }</p>
+  ))
+  }</div>
+</div>
   );
 }
 

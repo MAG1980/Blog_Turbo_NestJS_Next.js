@@ -54,12 +54,17 @@ async function main() {
     title: faker.lorem.sentence(),
     slug: generateSlug(faker.lorem.sentence()),
     content: faker.lorem.paragraphs(3),
-    thumbnail: faker.image.urlLoremFlickr({
-      width: 320,
-      height: 240,
-      category: 'nature',
+    /*    thumbnail: faker.image.urlLoremFlickr({
+          width: 320,
+          height: 240,
+          category: 'nature',
+        }),*/
+    thumbnail: faker.image.urlPicsumPhotos({
+      width: 640,
+      height: 480,
+      blur: 0,
     }),
-    //Случайное число в заданной диапазоне (1-10, т.к. у нас 10 пользователей)
+    //Случайное число в заданном диапазоне (1-10, т.к. у нас 10 пользователей)
     authorId: faker.helpers.arrayElement(users).id,
     published: true,
   }));

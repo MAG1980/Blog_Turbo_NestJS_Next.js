@@ -1,4 +1,4 @@
-import Hero from '@/components/hero';
+import Hero from '@/components/Hero';
 import PostList from '@/components/PostList';
 import { fetchPosts } from '@/lib/actions/post';
 import { DEFAULT_PAGE_SIZE } from 'server/dist/src/constants';
