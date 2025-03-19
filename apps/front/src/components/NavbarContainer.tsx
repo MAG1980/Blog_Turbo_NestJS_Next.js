@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
-import DesktopNavbar from '@/components/desktopNavbar';
-import MobileNavbar from '@/components/mobileNavbar';
+import DesktopNavbar from '@/components/DesktopNavbar';
+import MobileNavbar from '@/components/MobileNavbar';
 
 type Props = PropsWithChildren
 

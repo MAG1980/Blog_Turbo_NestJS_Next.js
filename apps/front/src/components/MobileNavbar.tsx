@@ -8,8 +8,8 @@ function MobileNavbar(props: Props) {
   return (
     <div className="md:hidden">
       <SideBar
-        triggerButtonClassName="absolute top-2 left-2"
-        triggerIcon={ <Bars3Icon className="w-4 "/> }
+        triggerButtonClassName="absolute top-2 sm:top-8 left-2 sm:left-8"
+        triggerIcon={ <Bars3Icon className="w-4 sm:w-6"/> }
       >
         {props.children}
       </SideBar>
