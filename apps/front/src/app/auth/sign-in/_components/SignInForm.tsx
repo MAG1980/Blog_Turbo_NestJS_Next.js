@@ -1,12 +1,12 @@
 'use client';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import SubmitButton from '@/components/SubmitButton';
 import { signIn } from '@/lib/actions/auth';
 
 export const SignInForm = () => {
-  const [state, action] = useFormState(signIn, undefined);
+  const [state, action] = useActionState(signIn, undefined);
   return (
     <form action={action} className="flex flex-col gap-2">
       {!!state?.message && (
