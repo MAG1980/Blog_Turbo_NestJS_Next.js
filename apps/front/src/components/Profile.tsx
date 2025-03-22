@@ -5,6 +5,8 @@ import { ArrowRightStartOnRectangleIcon, ListBulletIcon, PencilSquareIcon, UserI
 import { SessionUser } from '@/lib/session/types';
 import Link from 'next/link';
 import { useScreen } from 'usehooks-ts'
+import { useIsScrollDown } from '@/lib/hooks';
+import { cn } from '@/lib/utils';
 
 type Props = {
   user: SessionUser
@@ -12,10 +14,9 @@ type Props = {
 
 function Profile({ user }: Props) {
   const {width} = useScreen()
-  console.log(width, typeof width);
+const isScrollDown = useIsScrollDown(0);
   return (
     (width<768)? (
-
         <div className="flex flex-col [&>*]:px-4 [&>*]:py-2 gap-2">
           {/*Если использовать Link,
            то при выходе пользователя из системы страница не будет перезагружена,
@@ -40,7 +41,10 @@ function Profile({ user }: Props) {
         <Avatar>
           <AvatarImage src={user.avatar} />
           <AvatarFallback>
-            <UserIcon className="text-blue-500"/>
+            <UserIcon className={cn("text-blue-500 transition-colors duration-300",{
+              "bg-blue-500":isScrollDown,
+              "text-white": isScrollDown
+            })}/>
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>

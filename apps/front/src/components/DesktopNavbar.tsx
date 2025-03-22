@@ -2,27 +2,15 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname } from "next/navigation";
+import { useIsScrollDown } from '@/lib/hooks';
 
 type Props = PropsWithChildren
 
 function DesktopNavbar(props: Props) {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const isScrollDown = useIsScrollDown(0);
 
   const pathName = usePathname()
   const isHomePage = pathName === '/'
-
-  const handleScroll = () => {
-    setScrollPosition(window.scrollY);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const isScrollDown = scrollPosition > 10;
   return (
     <nav
       className={ cn('hidden md:flex justify-center fixed top-0 w-full z-50 text-white transition-colors',
