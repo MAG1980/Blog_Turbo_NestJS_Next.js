@@ -1,0 +1,81 @@
+'use client'
+import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ArrowRightStartOnRectangleIcon, ListBulletIcon, PencilSquareIcon, UserIcon } from '@heroicons/react/24/solid';
+import { SessionUser } from '@/lib/session/types';
+import Link from 'next/link';
+import { useScreen } from 'usehooks-ts'
+
+type Props = {
+  user: SessionUser
+}
+
+function Profile({ user }: Props) {
+  const {width} = useScreen()
+  console.log(width, typeof width);
+  return (
+    (width<768)? (
+
+        <div className="flex flex-col [&>*]:px-4 [&>*]:py-2 gap-2">
+          {/*Если использовать Link,
+           то при выходе пользователя из системы страница не будет перезагружена,
+           и будет отображаться кнопка "Выйти".*/}
+          <a href="/api/auth/sign-out">
+            <span>Выйти</span>
+          </a>
+          <Link href="/user/create-post">
+            <span>Создать новый пост</span>
+          </Link>
+          <Link href="/user/posts">
+            <span>Мои посты</span>
+          </Link>
+          <div className="flex justify-center items-center gap-3 py-2">
+            <UserIcon className="w-4" />
+            <p>{user.name}</p>
+          </div>
+      </div>)
+      :
+      <Popover>
+      <PopoverTrigger>
+        <Avatar>
+          <AvatarImage src={user.avatar} />
+          <AvatarFallback>
+            <UserIcon className="text-blue-500"/>
+          </AvatarFallback>
+        </Avatar>
+      </PopoverTrigger>
+      <PopoverContent className="md:text-white md:bg-gray-950 rounded-md">
+        <div className="flex justify-center items-center gap-3 py-2">
+          <UserIcon className="w-4" />
+          <p>{user.name}</p>
+        </div>
+        <div className="
+        rounded-md *:grid *:grid-cols-5 *:gap-3 *:items-center *:my-2 *:py-2
+        [&>*>span]:col-span-4
+        [&>*:hover]:bg-sky-500
+        *:transiton *:rounded-md
+        [&>*>*:nth-child(1)]:justify-self-end
+        [&>*>span]:pr-4
+        ">
+          {/*Если использовать Link,
+           то при выходе пользователя из системы страница не будет перезагружена,
+           и будет отображаться кнопка "Выйти".*/}
+          <a href="/api/auth/sign-out">
+            <ArrowRightStartOnRectangleIcon className="w-4" />
+            <span>Выйти</span>
+          </a>
+          <Link href="/user/create-post">
+            <PencilSquareIcon className="w-4" />
+            <span>Создать новый пост</span>
+          </Link>
+          <Link href="/user/posts">
+            <ListBulletIcon className="w-4" />
+            <span>Мои посты</span>
+          </Link>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+export default Profile;

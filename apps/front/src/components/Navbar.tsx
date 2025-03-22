@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getSession } from '@/lib/session';
 import { SignInPanel } from '@/components/SignInPanel';
+import Profile from '@/components/Profile';
 
 
 export const Navbar = async () => {
@@ -14,10 +15,7 @@ export const Navbar = async () => {
         <Link href="#about">Обо мне</Link>
         <Link href="#contact">Контакты</Link>
         {session && session.user ?
-          //Если использовать Link,
-          // то при выходе пользователя из системы страница не будет перезагружена,
-          // и будет отображаться кнопка "Выйти".
-          <a href="/api/auth/sign-out">Выйти</a>
+          <Profile user={session.user} />
           :
           <SignInPanel />}
       </div>
