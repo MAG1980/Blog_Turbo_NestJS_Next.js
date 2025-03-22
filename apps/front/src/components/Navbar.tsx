@@ -13,7 +13,13 @@ export const Navbar = async () => {
         <Link href="/">Блог</Link>
         <Link href="#about">Обо мне</Link>
         <Link href="#contact">Контакты</Link>
-        {session && session.user ? null : <SignInPanel />}
+        {session && session.user ?
+          //Если использовать Link,
+          // то при выходе пользователя из системы страница не будет перезагружена,
+          // и будет отображаться кнопка "Выйти".
+          <a href="/api/auth/sign-out">Выйти</a>
+          :
+          <SignInPanel />}
       </div>
     </>
   );
