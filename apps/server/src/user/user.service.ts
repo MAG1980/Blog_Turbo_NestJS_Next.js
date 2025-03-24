@@ -18,6 +18,7 @@ export class UserService {
       select: {
         id: true,
         name: true,
+        avatar: true,
       },
     });
   }
@@ -67,5 +68,16 @@ export class UserService {
     }
 
     return userDataWithoutPassword;
+  }
+
+  async getUserByEmail(email: string) {
+    return this.prismaService.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        name: true,
+        avatar: true,
+      },
+    });
   }
 }

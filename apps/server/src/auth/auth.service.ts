@@ -3,6 +3,7 @@ import { SignInInput } from './dto/sign-in.input';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthPayload } from './types/jwt-auth-payload';
+import { CreateUserInput } from '../user/dto/create-user.input';
 
 @Injectable()
 export class AuthService {
@@ -40,5 +41,17 @@ export class AuthService {
     }
 
     return { id: user.id };
+  }
+
+  async validateGoogleUser(profile: CreateUserInput) {
+    const user = await this.userService.getUserByEmail(profile.email);
+
+    //Если пользователь с таким email уже зарегистрирован, то возвращаем его данные без пароля
+    if (user) {
+      return user;
+    }
+
+    //Регистрируем и возвращаем данные нового пользователя без пароля
+    return await this.userService.create(profile);
   }
 }

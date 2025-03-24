@@ -1,0 +1,41 @@
+1. $ npm i passport-google-oauth20
+
+2. $ npm i @types/passport-google-oauth20
+
+3. Создать провайдер -стратегию
+import { PassportStrategy } from '@nestjs/passport';
+import { Strategy } from 'passport-google-oauth20';
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class GoogleStrategy extends PassportStrategy(Strategy) {
+  constructor() {
+    super({
+      clientID:,
+      clientSecret:,
+      callbackURL:,
+      //данные, которые будут отправлены с сервера Google при успешной аутентификации
+      scope: ['email', 'profile'],
+    });
+  }
+}
+
+4. На странице https://console.cloud.google.com/
+ в разделе APIs & Services/Credentials/Create credentials/OAuth client ID через меню в левой части экрана создать приложение OAuth2.0
+ Необходимо указать
+    тип приложения,
+    название приложения,
+    Authorized JavaScript origins (домен, на котором размещено серверное приложение): http://localhost:5000
+    Authorized redirect URIs (Пользователи будут перенаправлены на этот путь после прохождения аутентификации в Google.
+    К пути будет добавлен код авторизации для доступа, и он должен содержать протокол):
+    http://localhost:5000/auth/google/callback
+
+В результате Google выдаст
+    Client ID и
+    Client secret,
+которые нужно сохранить в .env.
+
+Также в .env необходимо сохранить  Authorized redirect URIs (GOOGLE_CALLBACK_URL).
+
+5. accessToken и refreshToken, полученные от Google в случае успешной аутентификации не следует отправлять на Frontend.
+Вместо этого необходимо сгенерировать собственные accessToken и refreshToken для отправки на Frontend.
