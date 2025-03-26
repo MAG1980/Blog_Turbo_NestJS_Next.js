@@ -7,7 +7,9 @@ import { ValidatedUser } from './types';
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async signIn(user: ValidatedUser) {
+  async signIn(
+    user: ValidatedUser,
+  ): Promise<ValidatedUser & { accessToken: string }> {
     const { accessToken } = await this.generateToken(user.id);
     return {
       id: user.id,

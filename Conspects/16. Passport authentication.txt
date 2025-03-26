@@ -2,7 +2,7 @@
 
 2. $ npm i @types/passport-google-oauth20
 
-3. Создать провайдер -стратегию
+3. В модуле AuthModule создать провайдер GoogleStrategy
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-google-oauth20';
 import { Injectable } from "@nestjs/common";
@@ -39,3 +39,26 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
 
 5. accessToken и refreshToken, полученные от Google в случае успешной аутентификации не следует отправлять на Frontend.
 Вместо этого необходимо сгенерировать собственные accessToken и refreshToken для отправки на Frontend.
+
+6. В модуле AuthModule создать провайдер GoogleAuthGuard
+    $ nest g gu auth/guards/google-auth --no-spec
+Реализовывать интерфейс CanActivate в классе GoogleAuthGuard не требуется.
+Вместо этого необходимо расширить интерфейс AuthGuard из библиотеки @nestjs/passport и передать ему название стратегии.
+Для Strategy из библиотеки 'passport-google-oauth20' название будет 'google'.
+
+7. Зарегистрировать  GoogleStrategy и GoogleAuthGuard в массиве провайдеров AuthModule.
+
+8. Создать контроллер AuthController в стиле REST API:
+    $ nest g co auth --no-spec
+
+9. Создать эндпойнты:
+    auth/google/login, защищённый GoogleAuthGuard,
+            который будет вызывать GoogleStrategy для добавления в Request свойства user.
+            После успешной аутентификации пользователь будет перенаправлен на auth/google/callback.
+
+    auth/google/callback, указанный в .env и настройках OAuth2.0 на странице https://console.cloud.google.com/,
+            также защищённый защищённый GoogleAuthGuard,
+            в Request уже будет присутствовать свойство user, содержащее данные пользователя,
+            С помощью AuthService необходимо дополнить данные пользователя свойствами accessToken и refreshToken.
+
+    auth/google/logout в стиле REST API.
