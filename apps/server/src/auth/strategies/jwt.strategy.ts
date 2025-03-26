@@ -2,13 +2,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthPayload } from '../types/jwt-auth-payload';
-import { AuthService } from '../auth.service';
 import { Inject } from '@nestjs/common';
+import { UserService } from '../../user/user.service';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(ConfigService) private readonly configService: ConfigService,
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {
     super({
       //Извлечение JWT-токена из заголовка Authorization : 'Bearer токен'
@@ -26,6 +26,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     } = payload;
 
     //К Request будет добавлено свойство user.id
-    return this.authService.validateJwtUser(id);
+    return this.userService.validateJwtUser(id);
   }
 }

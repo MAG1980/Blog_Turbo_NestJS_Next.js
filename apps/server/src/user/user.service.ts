@@ -70,6 +70,28 @@ export class UserService {
     return userDataWithoutPassword;
   }
 
+  async validateJwtUser(userId: number) {
+    const user = await this.findOne(userId);
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return { id: user.id };
+  }
+
+  async validateGoogleUser(profile: CreateUserInput) {
+    const user = await this.getUserByEmail(profile.email);
+
+    //Если пользователь с таким email уже зарегистрирован, то возвращаем его данные без пароля
+    if (user) {
+      return user;
+    }
+
+    //Регистрируем и возвращаем данные нового пользователя без пароля
+    return await this.create(profile);
+  }
+
   async getUserByEmail(email: string) {
     return this.prismaService.user.findUnique({
       where: { email },
