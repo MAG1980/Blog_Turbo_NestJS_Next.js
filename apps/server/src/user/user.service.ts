@@ -4,12 +4,13 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from '../prisma/prisma.service';
 import { hash, verify } from 'argon2';
 import { SignInInput } from '../auth/dto/sign-in.input';
+import { ValidatedUser } from '../auth/types';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createUserInput: CreateUserInput) {
+  async create(createUserInput: CreateUserInput): Promise<ValidatedUser> {
     const { password, ...user } = createUserInput;
     const hashedPassword = await hash(password);
 
@@ -57,7 +58,10 @@ export class UserService {
     return user;
   }
 
-  async validateLocalUser({ email, password }: SignInInput) {
+  async validateLocalUser({
+    email,
+    password,
+  }: SignInInput): Promise<ValidatedUser> {
     const { password: hashedPassword, ...userDataWithoutPassword } =
       await this.findOneByEmail(email);
 
@@ -80,7 +84,7 @@ export class UserService {
     return { id: user.id };
   }
 
-  async validateGoogleUser(profile: CreateUserInput) {
+  async validateGoogleUser(profile: CreateUserInput): Promise<ValidatedUser> {
     const user = await this.getUserByEmail(profile.email);
 
     //Если пользователь с таким email уже зарегистрирован, то возвращаем его данные без пароля
