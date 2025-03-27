@@ -1,5 +1,5 @@
 'use client';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname } from "next/navigation";
 import { useIsScrollDown } from '@/lib/hooks';
@@ -13,12 +13,12 @@ function DesktopNavbar(props: Props) {
   const isHomePage = pathName === '/'
   return (
     <nav
-      className={ cn('hidden md:flex justify-center fixed top-0 w-full z-50 text-white transition-colors',
+      className={ cn('hidden md:flex md:flex-col justify-center items-center fixed top-0 w-full z-50 text-white transition-colors',
         { 'bg-white text-gray-700 shadow-md': isScrollDown || !isHomePage }) }>
       <div className="container flex items-center px-4 py-4">
         {props.children}
       </div>
-      <hr className="border-b border-gray-100 opacity-25" />
+      <hr className="w-full border-b border-gray-100 opacity-25"/>
     </nav>
   );
 }

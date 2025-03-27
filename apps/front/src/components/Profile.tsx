@@ -39,7 +39,7 @@ const isScrollDown = useIsScrollDown(0);
       <Popover>
       <PopoverTrigger>
         <Avatar className="w-8 h-8">
-          <AvatarImage className='border-white rounded-full  border-2' src={user.avatar} />
+          <AvatarImage className={cn('border-white rounded-full  border-2 transition-colors duration-300', { "border-blue-500": isScrollDown })} src={user.avatar} />
           <AvatarFallback>
             <UserIcon className={cn("text-blue-500 transition-colors duration-300",{
               "bg-blue-500":isScrollDown,
