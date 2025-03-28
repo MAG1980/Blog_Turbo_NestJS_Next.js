@@ -1,0 +1,1 @@
+export { GET_COMMENTS_GY_POST_ID } from './getCommentsByPostId.query'

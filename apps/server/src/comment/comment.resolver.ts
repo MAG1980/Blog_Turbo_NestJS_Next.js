@@ -1,8 +1,9 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommentService } from './comment.service';
 import { CommentEntity } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
+import { DEFAULT_PAGE_SIZE } from '../constants';
 
 @Resolver(() => CommentEntity)
 export class CommentResolver {
@@ -38,5 +39,29 @@ export class CommentResolver {
   @Mutation(() => CommentEntity)
   removeComment(@Args('id', { type: () => Int }) id: number) {
     return this.commentService.remove(id);
+  }
+
+  @Query(() => [CommentEntity])
+  getPostComments(
+    @Args('postId', { type: () => Int! }) postId: number,
+    @Args('take', {
+      type: () => Int,
+      nullable: true,
+      defaultValue: DEFAULT_PAGE_SIZE,
+    })
+    take: number,
+    @Args('skip', {
+      type: () => Int,
+      nullable: true,
+      defaultValue: 0,
+    })
+    skip: number,
+  ) {
+    return this.commentService.getPostComments({ postId, take, skip });
+  }
+
+  @Query(() => Int!)
+  postCommentsCount(@Args('postId', { type: () => Int! }) postId: number) {
+    return this.commentService.postCommentsCount(postId);
   }
 }

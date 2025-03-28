@@ -48,7 +48,7 @@ async function PostPage({ params }: Props) {
         </svg>
       </div>
 
-      <CommentsList comments={post?.comments} />
+      <CommentsList postId={post?.id} />
     </main>
   )
     ;
