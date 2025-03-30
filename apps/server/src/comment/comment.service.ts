@@ -7,8 +7,15 @@ import { DEFAULT_PAGE_SIZE } from '../constants';
 @Injectable()
 export class CommentService {
   constructor(private prismaService: PrismaService) {}
-  create(createCommentInput: CreateCommentInput) {
-    return 'This action adds a new comment';
+
+  async create({ postId, content }: CreateCommentInput, authorId: number) {
+    return await this.prismaService.comment.create({
+      data: {
+        content,
+        post: { connect: { id: postId } },
+        author: { connect: { id: authorId } },
+      },
+    });
   }
 
   findAll() {

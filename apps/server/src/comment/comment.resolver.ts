@@ -1,19 +1,27 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommentService } from './comment.service';
 import { CommentEntity } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
 import { DEFAULT_PAGE_SIZE } from '../constants';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
+import { UserId } from '../auth/types';
 
 @Resolver(() => CommentEntity)
 export class CommentResolver {
   constructor(private readonly commentService: CommentService) {}
 
+  //Только аутентифицированные пользователи могут создавать комментарии
+  //Добавляет в Request.user.id, нужный для создания ссылки на автора.
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => CommentEntity)
   createComment(
+    @Context() context: Record<string, unknown> & { req: { user: UserId } },
     @Args('createCommentInput') createCommentInput: CreateCommentInput,
   ) {
-    return this.commentService.create(createCommentInput);
+    const authorId: number = context.req.user.id;
+    return this.commentService.create(createCommentInput, authorId);
   }
 
   @Query(() => [CommentEntity], { name: 'comment' })

@@ -14,8 +14,9 @@ type CommentEntity {
 }
 
 input CreateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Comment content)"""
+  content: String!
+  postId: Int!
 }
 
 input CreateLikeInput {
@@ -114,9 +115,10 @@ type TagEntity {
 }
 
 input UpdateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """Comment content)"""
+  content: String
   id: Int!
+  postId: Int
 }
 
 input UpdateLikeInput {

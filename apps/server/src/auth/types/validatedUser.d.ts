@@ -1,5 +1,4 @@
-export type ValidatedUser = {
-  id: number;
+export type ValidatedUser = UserId & {
   name: string;
   avatar: string;
 };
