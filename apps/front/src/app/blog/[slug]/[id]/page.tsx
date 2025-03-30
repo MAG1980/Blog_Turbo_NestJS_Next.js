@@ -4,6 +4,7 @@ import { fetchPostById } from '@/lib/actions/post';
 import { SanitizedContent } from '@/app/blog/[slug]/[id]/_components/SanitizedContent';
 import CommentsList from '@/app/blog/[slug]/[id]/_components/CommentsList';
 import TagsList from '@/app/blog/[slug]/[id]/_components/TagsList';
+import { getSession } from '@/lib/session';
 
 type Props = {
   params: {
@@ -14,6 +15,7 @@ type Props = {
 async function PostPage({ params }: Props) {
   const postId = (await params).id;
   const post = await fetchPostById(+postId);
+  const session = await getSession();
 
   return (
     <main className="container flex flex-col gap-4 mx-auto px-4 py-8 md:mt-16">
@@ -48,7 +50,7 @@ async function PostPage({ params }: Props) {
         </svg>
       </div>
 
-      <CommentsList postId={post?.id} />
+      <CommentsList postId={post?.id} user={session?.user} />
     </main>
   )
     ;

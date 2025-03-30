@@ -1,0 +1,1 @@
+export { CREATE_COMMENT } from './createComment.mutation';
