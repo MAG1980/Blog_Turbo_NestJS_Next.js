@@ -8,25 +8,36 @@ import { cn } from '@/lib/utils';
 import { SessionUser } from '@/lib/session/types';
 import { saveComment } from "@/lib/actions/comment/saveComment.action";
 import { useToast } from "@/hooks/use-toast";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { CommentEntity } from "server/dist/src/comment/entities/comment.entity";
 
 
 type Props = {
   postId: number
   user: SessionUser
   className?: string
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<{
+    comments: CommentEntity[],
+    totalCount: number
+  }, Error>>
 }
 
 function CreateCommentForm(props: Props) {
   const [state, action] = useActionState(saveComment, undefined);
   const { toast } = useToast()
 
-  //При каждом изменении состояния формы, обновляем данные в компоненте Toaster shadcn, расположенном в корневом layout.
+  //При каждом изменении состояния формы, обновляем данные в компоненте Toaster shadcn, расположенном в корневом layout,
+  //и выполняем повторный запрос на сервер для отображения нового комментария.
   useEffect(() => {
     toast({
       title: state?.ok ? 'Успех!' : 'Ошибка!',
       description: state?.message
     })
-  }, [state]);
+
+    if ( state?.ok ) {
+      props.refetch()
+    }
+  }, [state, toast, props.refetch]);
 
   return (
     <Dialog open={ state?.open }>
