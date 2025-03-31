@@ -9,6 +9,22 @@ export default {
   ],
   theme: {
   	extend: {
+			keyframes: {
+				shake: {
+					'0%, 100%': {
+						transform: 'translate(px, 0px);'
+					},
+					'25%': {
+						transform: 'translate(-2px, 0px);'
+					},
+					'75%': {
+						transform: 'translate(2px, 0px);'
+					}
+				}
+			},
+			animation: {
+				shake: 'shake 0.5s ease-in-out'
+			},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

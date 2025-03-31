@@ -56,7 +56,7 @@ function CreateCommentForm(props: Props) {
           <Label htmlFor="content">Комментарий</Label>
           <div className="border-t  border-x rounded-t-md">
             <Textarea className="border-none active:outline-none focus-visible:ring-0 shadow-none" name="content" />
-            { !!state?.errors?.content && <p className="text-red-500">{ state?.errors?.content }</p> }
+            { !!state?.errors?.content && <p className="text-red-500 pl-2 animate-shake">{ state?.errors?.content }</p> }
           </div>
 
           <p className="border rounded-b-md p-2">
