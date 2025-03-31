@@ -1,7 +1,7 @@
 'use server';
 import { print } from 'graphql/index';
 import { CreateCommentFormState } from '@/lib/types';
-import { СreateCommentFormSchema } from '@/lib/zodSchemas';
+import { CreateCommentFormSchema } from '@/lib/zodSchemas';
 import { authFetchGraphQl } from "@/lib/authFetchGraphQl";
 import { CREATE_COMMENT } from "@/lib/gql/mutations/comment";
 
@@ -12,7 +12,7 @@ export const saveComment =
 
     //Валидация данных, полученных из формы, с помощью Zod.
     const validatedFields =
-      СreateCommentFormSchema.safeParse(Object.fromEntries(formData.entries()));
+      CreateCommentFormSchema.safeParse(Object.fromEntries(formData.entries()));
 
     if (!validatedFields.success) {
       return {

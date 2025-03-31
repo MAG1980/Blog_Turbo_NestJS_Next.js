@@ -39,26 +39,26 @@ const CommentsPagination = ({
       ) }
 
       { pageNumbers.map((pageNumber) => (
-        <>
+        <div key={ pageNumber }>
           { pageNumber === '...' && (
             <p className="cursor-not-allowed">...</p>
           ) }
           { pageNumber === currentPage && (
-            <button key={ pageNumber }
+            <button
                     className='px-3 py-1 rounded-md transition bg-blue-500 text-white !cursor-default'
             >
               { pageNumber }
             </button>
           ) }
           { ( pageNumber !== '...' && pageNumber !== currentPage ) && (
-            <button key={ pageNumber }
+            <button
                     className='px-3 py-1 rounded-md transition bg-slate-200 hover:text-sky-600'
                     onClick={ () => handlePageClick(pageNumber) }
             >
               { pageNumber }
             </button>
           ) }
-        </>
+        </div>
 
       )) }
 
