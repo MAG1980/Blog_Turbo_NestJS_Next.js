@@ -1,26 +1,66 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLikeInput } from './dto/create-like.input';
-import { UpdateLikeInput } from './dto/update-like.input';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class LikeService {
-  create(createLikeInput: CreateLikeInput) {
-    return 'This action adds a new like';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async likePost({ userId, postId }: { userId: number; postId: number }) {
+    try {
+      //Преобразуем в boolean
+      return !!(await this.prismaService.like.create({
+        data: {
+          user: {
+            connect: { id: userId },
+          },
+          post: {
+            connect: {
+              id: postId,
+            },
+          },
+        },
+      }));
+    } catch (error) {
+      throw new BadRequestException('You have already liked this post', {
+        cause: error,
+      });
+    }
   }
 
-  findAll() {
-    return `This action returns all like`;
+  async unlikePost({ userId, postId }: { userId: number; postId: number }) {
+    try {
+      await this.prismaService.like.delete({
+        where: {
+          userIdPostId: {
+            userId,
+            postId,
+          },
+        },
+      });
+      return true;
+    } catch (error) {
+      throw new BadRequestException('You have not liked this post', {
+        cause: error,
+      });
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} like`;
+  async postLikesCount({ postId }: { postId: number }) {
+    return await this.prismaService.like.count({
+      where: { postId },
+    });
   }
 
-  update(id: number, updateLikeInput: UpdateLikeInput) {
-    return `This action updates a #${id} like`;
-  }
+  async userLikedPost({ userId, postId }: { userId: number; postId: number }) {
+    const like = await this.prismaService.like.findUnique({
+      where: {
+        userIdPostId: {
+          userId,
+          postId,
+        },
+      },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} like`;
+    return !!like;
   }
 }

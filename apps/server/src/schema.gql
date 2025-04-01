@@ -19,11 +19,6 @@ input CreateCommentInput {
   postId: Int!
 }
 
-input CreateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input CreateTagInput {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -52,16 +47,15 @@ type LikeEntity {
 
 type Mutation {
   createComment(createCommentInput: CreateCommentInput!): CommentEntity!
-  createLike(createLikeInput: CreateLikeInput!): LikeEntity!
   createTag(createTagInput: CreateTagInput!): TagEntity!
   createUser(createUserInput: CreateUserInput!): UserEntity!
+  likePost(postId: Int!): Boolean!
   removeComment(id: Int!): CommentEntity!
-  removeLike(id: Int!): LikeEntity!
   removeTag(id: Int!): TagEntity!
   removeUser(id: Int!): UserEntity!
   signIn(signInInput: SignInInput!): SignInResponseEntity!
+  unlikePost(postId: Int!): Boolean!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
-  updateLike(updateLikeInput: UpdateLikeInput!): LikeEntity!
   updateTag(updateTagInput: UpdateTagInput!): TagEntity!
   updateUser(updateUserInput: UpdateUserInput!): UserEntity!
 }
@@ -87,13 +81,14 @@ type Query {
   comment(id: Int!): CommentEntity!
   getHelloWorld: String!
   getPostComments(postId: Int!, skip: Int = 0, take: Int = 12): [CommentEntity!]!
-  like(id: Int!): LikeEntity!
   postById(id: Int!): PostEntity!
   postCommentsCount(postId: Int!): Int!
+  postLikesCount(postId: Int!): Int!
   posts(skip: Float, take: Float): [PostEntity!]!
   postsTotalCount: Int!
   tag(id: Int!): TagEntity!
   user(id: Int!): UserEntity!
+  userLikedPost(postId: Int!): Boolean!
 }
 
 input SignInInput {
@@ -119,12 +114,6 @@ input UpdateCommentInput {
   content: String
   id: Int!
   postId: Int
-}
-
-input UpdateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input UpdateTagInput {
