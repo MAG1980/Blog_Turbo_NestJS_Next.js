@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { SignUpFormState as SignInFormState } from '@/lib/types';
 import { SignInFormSchema } from '@/lib/zodSchemas';
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
-import { SIGN_IN } from '@/lib/gql/mutations';
+import { SIGN_IN } from '@/lib/gql/mutations/auth';
 import { createSession } from '@/lib/session';
 
 export const signIn = async (state: SignInFormState, formData: FormData): Promise<SignInFormState> => {

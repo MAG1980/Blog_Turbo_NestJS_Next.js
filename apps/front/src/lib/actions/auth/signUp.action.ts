@@ -3,7 +3,7 @@ import { SignUpFormState } from '@/lib/types';
 import { SignUpFormSchema } from '@/lib/zodSchemas';
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
 import { print } from 'graphql/index';
-import { CREATE_USER } from '@/lib/gql/mutations';
+import { CREATE_USER } from '@/lib/gql/mutations/auth';
 import { redirect } from 'next/navigation';
 
 export const signUp =
