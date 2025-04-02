@@ -1,7 +1,7 @@
 'use client'
 import { SessionUser } from "@/lib/session/types";
-import { useQuery } from "@tanstack/react-query";
-import { fetchPostLikesData } from "@/lib/actions/like"
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { fetchPostLikesData, removeLikeFromPost, setLikeToPost } from "@/lib/actions/like"
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
 
@@ -14,15 +14,23 @@ const Like = ({ postId, user }: Props) => {
     queryKey: ["FETCH_POST_LIKES_DATA", postId],
     queryFn: async () => await fetchPostLikesData(postId)
   })
+
+  const setLikeToPostMutation = useMutation({
+    mutationFn: async () => await setLikeToPost(postId)
+  })
+
+  const removeLikeFromPostMutation = useMutation({
+    mutationFn: async () => await removeLikeFromPost(postId)
+  })
   return (
     <div className="flex items-center justify-start mt-3 gap-2">
       { data?.isAuthUserLikedPost ? (
-          <button>
+          <button onClick={ () => removeLikeFromPostMutation.mutate() }>
             <SolidHeartIcon className="w-6 text-rose-600"/>
           </button>
         )
         : (
-          <button>
+          <button onClick={ () => setLikeToPostMutation.mutate() }>
             <HeartIcon className="w-6"/>
           </button>
         ) }
