@@ -81,6 +81,7 @@ type Query {
   comment(id: Int!): CommentEntity!
   getHelloWorld: String!
   getPostComments(postId: Int!, skip: Int = 0, take: Int = 12): [CommentEntity!]!
+  isAuthUserLikedPost(postId: Int!): Boolean!
   postById(id: Int!): PostEntity!
   postCommentsCount(postId: Int!): Int!
   postLikesCount(postId: Int!): Int!
@@ -88,7 +89,6 @@ type Query {
   postsTotalCount: Int!
   tag(id: Int!): TagEntity!
   user(id: Int!): UserEntity!
-  userLikedPost(postId: Int!): Boolean!
 }
 
 input SignInInput {

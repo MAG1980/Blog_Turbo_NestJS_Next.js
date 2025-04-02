@@ -37,12 +37,12 @@ export class LikeResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => Boolean!)
-  userLikedPost(
+  isAuthUserLikedPost(
     @Context()
     context: Record<string, unknown> & { req: { user: { id: number } } },
     @Args('postId', { type: () => Int! }) postId: number,
   ) {
     const userId = context.req.user.id;
-    return this.likeService.userLikedPost({ userId, postId });
+    return this.likeService.isUserLikedPost({ userId, postId });
   }
 }
