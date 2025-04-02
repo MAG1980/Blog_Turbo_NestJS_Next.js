@@ -1,0 +1,1 @@
+export { GET_POST_LIKES } from './getPostLikes.query'
