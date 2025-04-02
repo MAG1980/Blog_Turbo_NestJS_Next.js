@@ -2,7 +2,7 @@
 
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
 import { print } from 'graphql/index';
-import { GET_POST_BY_ID } from '@/lib/gql/queries';
+import { GET_POST_BY_ID } from '@/lib/gql/queries/post';
 import { PostEntity } from 'server/dist/src/post/entities/post.entity';
 
 export const fetchPostById = async (id: number) => {

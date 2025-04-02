@@ -3,7 +3,7 @@
 import { transformTakeSkip } from '@/lib/helpers';
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
 import { print } from 'graphql/index';
-import { GET_POSTS } from '@/lib/gql/queries';
+import { GET_POSTS } from '@/lib/gql/queries/post';
 import { PostEntity } from 'server/dist/src/post/entities/post.entity';
 
 export const fetchPosts = async ({ pageNumber = 1, pageSize = 12 }: { pageNumber?: number, pageSize?: number }) => {
