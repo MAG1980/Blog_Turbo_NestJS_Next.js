@@ -37,19 +37,18 @@ function Pagination({ totalPages, currentPage, oneSidePageNeighborsAmount = 1, c
             </button>
           )}
           {(pageNumber !== '...' && pageNumber !== currentPage) && (
-            <Link href={`/?page=${pageNumber}`}>
+            <Link href={`?page=${pageNumber}`}>
               <button key={ pageNumber } className='px-3 py-1 rounded-md transition bg-slate-200 hover:text-sky-600'>
                 {pageNumber}
               </button>
             </Link>)
           }
         </>
-
       ))}
 
       {/* Next page button */}
       {currentPage !== totalPages && (
-        <Link href={`/?page=${currentPage + 1}`}>
+        <Link href={`?page=${currentPage + 1}`}>
           <button className='rounded-md bg-slate-200 p-2 hover:text-sky-600'>
             <ChevronRightIcon className="w-4" />
           </button>
