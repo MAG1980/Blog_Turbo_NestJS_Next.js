@@ -48,19 +48,21 @@ const isScrollDown = useIsScrollDown(0);
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
-      <PopoverContent className="md:text-white md:bg-gray-950 rounded-md">
-        <div className="flex justify-center items-center gap-3 py-2">
-          <UserIcon className="w-4" />
-          <p>{user.name}</p>
-        </div>
+      <PopoverContent className="md:text-white md:bg-gray-950 rounded-md z-10">
+
         <div className="
-        rounded-md *:grid *:grid-cols-5 *:gap-3 *:items-center *:my-2 *:py-2
+        max-w-52
+        rounded-md *:grid *:grid-cols-5 *:gap-3 *:items-center *:my-2 *:py-2 *:px-2
         [&>*>span]:col-span-4
         [&>*:hover]:bg-sky-500
         *:transiton *:rounded-md
-        [&>*>*:nth-child(1)]:justify-self-end
+        [&>*>*:nth-child(1)]:justify-self-center
         [&>*>span]:pr-4
         ">
+          <div className="flex justify-center items-center gap-3 py-2">
+            <UserIcon className="w-4" />
+            <p className="col-span-4 text-wrap">{user.name}</p>
+          </div>
           {/*Если использовать Link,
            то при выходе пользователя из системы страница не будет перезагружена,
            и будет отображаться кнопка "Выйти".*/}
