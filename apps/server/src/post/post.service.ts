@@ -16,6 +16,39 @@ export class PostService {
     return await this.prismaService.post.findMany({ skip, take });
   }
 
+  async getPostsByAuthorId({
+    authorId,
+    skip = 0,
+    take = DEFAULT_PAGE_SIZE,
+  }: {
+    authorId: number;
+    skip?: number;
+    take?: number;
+  }) {
+    return await this.prismaService.post.findMany({
+      where: {
+        authorId,
+      },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        content: true,
+        thumbnail: true,
+        published: true,
+        createdAt: true,
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+      },
+      skip,
+      take,
+    });
+  }
+
   async getPostsTotalCount() {
     return await this.prismaService.post.count();
   }
@@ -64,6 +97,14 @@ export class PostService {
     return await this.prismaService.like.count({
       where: {
         postId: id,
+      },
+    });
+  }
+
+  async authorPostsCount(authorId: number) {
+    return await this.prismaService.post.count({
+      where: {
+        authorId,
       },
     });
   }

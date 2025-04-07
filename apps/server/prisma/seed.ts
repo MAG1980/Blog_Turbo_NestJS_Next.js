@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker/locale/ru';
 import * as process from 'node:process';
+import { hash } from 'argon2';
 
 const prisma = new PrismaClient();
 
@@ -29,6 +30,8 @@ async function main() {
   await prisma.user.deleteMany();
   await prisma.tag.deleteMany();
 
+  //Генерируем дефолтный пароль, общий для всех пользователей.
+  const defaultPassword = await hash('123');
   //Создаём пользователей
   const users = await prisma.user.createManyAndReturn({
     data: Array.from({ length: 10 }).map(() => ({
@@ -36,6 +39,7 @@ async function main() {
       email: faker.internet.email(),
       bio: faker.lorem.sentence(),
       avatar: faker.image.avatar(),
+      password: defaultPassword,
     })),
   });
 

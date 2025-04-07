@@ -1,8 +1,9 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { CommentEntity } from '../../comment/entities/comment.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { TagEntity } from '../../tag/entities/tag.entity';
 import { LikeEntity } from '../../like/entities/like.entity';
+import { CountEntity } from './count.entity';
 
 @ObjectType()
 export class PostEntity {
@@ -44,4 +45,7 @@ export class PostEntity {
 
   @Field(() => [LikeEntity])
   likes: LikeEntity[];
+
+  @Field(() => CountEntity)
+  _count: CountEntity;
 }
