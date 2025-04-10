@@ -2,6 +2,7 @@ import {
   Args,
   Context,
   Int,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -15,6 +16,7 @@ import { TagEntity } from '../tag/entities/tag.entity';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 import { DEFAULT_PAGE_SIZE } from '../constants';
+import { CreatePostInput } from './dto/create-post.input';
 
 @Resolver(() => PostEntity)
 export class PostResolver {
@@ -85,5 +87,16 @@ export class PostResolver {
   @Query(() => Int, { name: 'postsTotalCount' })
   getPostsTotalCount() {
     return this.postService.getPostsTotalCount();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => PostEntity!)
+  createPost(
+    @Context()
+    context: Record<string, unknown> & { req: { user: { id: number } } },
+    @Args('createPostInput') createPostInput: CreatePostInput,
+  ) {
+    const authorId = context.req.user.id;
+    return this.postService.createPost({ authorId,createPostInput });
   }
 }

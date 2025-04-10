@@ -12,7 +12,7 @@ const Post = ({ post }: Props) => {
       className="grid grid-cols-8 m-2 rounded-md overflow-hidden border shadow hover:scale-[101%] transition-transform duration-300 text-center bg-white"
       key={ post.id }>
       <div className="relative w-48 h-32">
-        <Image src={ post.thumbnail ?? '/no-image.png' } alt={ post.title } fill/>
+        <Image src={ post.thumbnail || '/no-image.png' } alt={ post.title } fill/>
       </div>
 
       <div className="col-span-2 flex flex-col gap-2">

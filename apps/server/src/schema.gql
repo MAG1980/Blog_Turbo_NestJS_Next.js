@@ -24,6 +24,14 @@ input CreateCommentInput {
   postId: Int!
 }
 
+input CreatePostInput {
+  content: String!
+  published: Boolean!
+  tags: [String!]!
+  thumbnail: String
+  title: String!
+}
+
 input CreateTagInput {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -52,6 +60,7 @@ type LikeEntity {
 
 type Mutation {
   createComment(createCommentInput: CreateCommentInput!): CommentEntity!
+  createPost(createPostInput: CreatePostInput!): PostEntity!
   createTag(createTagInput: CreateTagInput!): TagEntity!
   createUser(createUserInput: CreateUserInput!): UserEntity!
   likePost(postId: Int!): Boolean!
