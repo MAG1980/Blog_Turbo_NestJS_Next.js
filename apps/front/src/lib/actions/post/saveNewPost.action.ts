@@ -27,7 +27,7 @@ export const saveNewPost = async (state: PostFormState, formData: FormData): Pro
 
   if (data) {
     return {
-      message: 'Post created successfully',
+      message: 'Пост создан успешно!',
       ok: true,
     };
   }

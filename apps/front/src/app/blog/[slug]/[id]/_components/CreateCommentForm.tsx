@@ -29,10 +29,13 @@ function CreateCommentForm(props: Props) {
   //При каждом изменении состояния формы, обновляем данные в компоненте Toaster shadcn, расположенном в корневом layout,
   //и выполняем повторный запрос на сервер для отображения нового комментария.
   useEffect(() => {
-    toast({
-      title: state?.ok ? 'Успех!' : 'Ошибка!',
-      description: state?.message
-    })
+    //При первом рендере компонента предотвращаем вывод уведомления благодаря тому, что message отсутствует.
+    if(state?.message){
+      toast({
+        title: state?.ok ? 'Успех!' : 'Ошибка!',
+        description: state?.message
+      })
+    }
 
     if ( state?.ok ) {
       props.refetch()

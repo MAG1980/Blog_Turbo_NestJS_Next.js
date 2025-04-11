@@ -1,11 +1,12 @@
 'use client';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import SubmitButton from '@/components/SubmitButton';
 import { PostFormState } from '@/lib/types';
+import { useToast } from '@/hooks/use-toast';
 
 type Props = {
   state: PostFormState,
@@ -13,6 +14,18 @@ type Props = {
 }
 const UpsertPostForm = ({ state, formAction }: Props) => {
   const [imageUrl, setImageUrl] = useState('');
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    //При первом рендере компонента предотвращаем вывод уведомления благодаря тому, что message отсутствует.
+    if (state?.message) {
+      toast({
+        title: state?.ok ? 'Успешно!' : 'Упс...',
+        description: state?.message,
+      });
+    }
+  }, [state, toast]);
 
   //При выборе файла с изображением преобразует путь к нему в URL и сохраняет его в стейт.
   const onChangeFileName = (e: ChangeEvent<HTMLInputElement>) => {
