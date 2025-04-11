@@ -17,6 +17,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 import { DEFAULT_PAGE_SIZE } from '../constants';
 import { CreatePostInput } from './dto/create-post.input';
+import { UpdatePostInput } from './dto/update-post.input';
 
 @Resolver(() => PostEntity)
 export class PostResolver {
@@ -97,6 +98,17 @@ export class PostResolver {
     @Args('createPostInput') createPostInput: CreatePostInput,
   ) {
     const authorId = context.req.user.id;
-    return this.postService.createPost({ authorId,createPostInput });
+    return this.postService.createPost({ authorId, createPostInput });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => PostEntity!)
+  updatePost(
+    @Context()
+    context: Record<string, unknown> & { req: { user: { id: number } } },
+    @Args('updatePostInput') updatePostInput: UpdatePostInput,
+  ) {
+    const userId = context.req.user.id;
+    return this.postService.updatePost({ userId, updatePostInput });
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { DEFAULT_PAGE_SIZE } from '../constants';
 import { CreatePostInput } from './dto/create-post.input';
+import { UpdatePostInput } from './dto/update-post.input';
 
 @Injectable()
 export class PostService {
@@ -135,6 +136,43 @@ export class PostService {
             create: {
               name: tag,
             },
+          })),
+        },
+      },
+    });
+  }
+
+  async updatePost({
+    userId,
+    updatePostInput,
+  }: {
+    userId: number;
+    updatePostInput: UpdatePostInput;
+  }) {
+    const post = await this.prismaService.post.findUnique({
+      where: {
+        id: updatePostInput.postId,
+        authorId: userId,
+      },
+    });
+
+    if (!post) {
+      throw new Error('You are not the author of this post');
+    }
+
+    return await this.prismaService.post.update({
+      where: {
+        id: updatePostInput.postId,
+      },
+      data: {
+        ...updatePostInput,
+        tags: {
+          //Удаляем ранее существовавшие отношения.
+          set: [],
+          //Создаём новые отношения на основе полученных данных.
+          connectOrCreate: updatePostInput.tags.map((tag) => ({
+            where: { name: tag },
+            create: { name: tag },
           })),
         },
       },
