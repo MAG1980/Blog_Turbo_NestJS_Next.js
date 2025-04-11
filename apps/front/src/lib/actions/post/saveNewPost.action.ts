@@ -4,6 +4,7 @@ import { PostFormState } from '@/lib/types';
 import { PostFormSchema } from '@/lib/zodSchemas';
 import { authFetchGraphQl } from '@/lib/authFetchGraphQl';
 import { CREATE_POST_MUTATION } from '@/lib/gql/mutations/post';
+import { uploadThumbnail } from "@/upload";
 
 export const saveNewPost = async (state: PostFormState, formData: FormData): Promise<PostFormState> => {
   const validatedFields = PostFormSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -15,8 +16,13 @@ export const saveNewPost = async (state: PostFormState, formData: FormData): Pro
     };
   }
 
-  //TODO: Upload Thumbnail-image to supabase storage
-  const thumbnailUrl = '';
+  let thumbnailUrl = '';
+  if ( validatedFields.data.thumbnail ) {
+    // Upload Thumbnail-image to Supabase storage
+    thumbnailUrl = await uploadThumbnail(validatedFields.data.thumbnail);
+  }
+
+
 
   const data = await authFetchGraphQl(print(CREATE_POST_MUTATION), {
     createPostInput: {

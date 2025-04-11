@@ -1,0 +1,29 @@
+1. Добавить настройи подключения к базе данных Supabase в переменные окружения Next.js:
+    SUPABASE_URL
+    SUPABASE_API
+Значения переменных можно получить в нижней части главной страниц (дом) в разделе Project API
+или в  через левый сайдбар: /Project Settings/DataAPI
+
+2. Подключить библиотеку для работы с Supabase в клиентскую часть проекта:
+https://supabase.com/docs/reference/javascript/installing
+    $ npm install @supabase/supabase-js
+
+3. Создать клиент на стороне Frontend:
+https://supabase.com/docs/reference/javascript/initializing
+
+import { createClient } from '@supabase/supabase-js'
+// Create a single supabase client for interacting with your database
+const supabase = createClient('https://xyzcompany.supabase.co', 'public-anon-key')
+
+4. Создать bucket в разделе Storage меню в левой части страницы личного кабинета Supabase.
+    При включении "Public bucket" файлы будут общедоступными.
+
+5. Настроить Policies в разделе Storage меню в левой части страницы личного кабинета Supabase.
+Выбрать нужный bucket и нажать кнопку "New policy".
+Выбрать "For full customization".
+Заполнить "Policy name".
+В  "Allowed operation" установить чекбоксы "SELECT", "INSERT", "UPDATE", "DELETE".
+В "Target roles" выбрать "anon", т.к. для подключения к Supabase используются SUPABASE_URL и SUPABASE_API_KEY.
+
+6. Чтобы в Next.js не возникало ошибок, в next.config.ts необходимо добавить в images.remotePatterns путь к конкретному
+bucket (можно увидеть в URL загруженного в bucket файла).
