@@ -8,6 +8,7 @@ query($id:Int!){
     thumbnail
     content
     likesCount
+    published
     createdAt
       author{
       id

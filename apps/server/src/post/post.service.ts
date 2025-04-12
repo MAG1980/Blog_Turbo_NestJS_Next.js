@@ -160,17 +160,20 @@ export class PostService {
       throw new Error('You are not the author of this post');
     }
 
+    const { postId, ...updatePostInputWithoutPostId } = updatePostInput;
+
     return await this.prismaService.post.update({
       where: {
         id: updatePostInput.postId,
       },
       data: {
-        ...updatePostInput,
+        //postId являетя первичным ключом и не может быть изменен (возникает ошибка).
+        ...updatePostInputWithoutPostId,
         tags: {
           //Удаляем ранее существовавшие отношения.
           set: [],
           //Создаём новые отношения на основе полученных данных.
-          connectOrCreate: updatePostInput.tags.map((tag) => ({
+          connectOrCreate: updatePostInput.tags?.map((tag) => ({
             where: { name: tag },
             create: { name: tag },
           })),

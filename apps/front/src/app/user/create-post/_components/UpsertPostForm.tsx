@@ -15,6 +15,8 @@ type Props = {
 const UpsertPostForm = ({ state, formAction }: Props) => {
   const [imageUrl, setImageUrl] = useState('');
 
+  console.log({state})
+
   const { toast } = useToast();
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
       className="flex flex-col gap-5 [&>div>label]:text-slate-500 [&>div>input]:transition [&>div>textarea]:transition"
       action={formAction}
     >
+      <input name="postId" defaultValue={ state?.data?.postId } hidden/>
       <div>
         <Label htmlFor="title">Заголовок</Label>
         <Input

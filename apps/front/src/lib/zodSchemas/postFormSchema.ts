@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
 export const PostFormSchema = z.object({
+  postId: z
+    .string()
+    .transform(value => parseInt(value))
+    .optional(),
   title: z
     .string()
     .min(5, { message: 'Поле заголовка не может быть короче 5 символов' }).max(100, { message: 'Поле заголовка не может быть длиннее 100 символов' }),
