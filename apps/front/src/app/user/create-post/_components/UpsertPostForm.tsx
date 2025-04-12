@@ -15,8 +15,6 @@ type Props = {
 const UpsertPostForm = ({ state, formAction }: Props) => {
   const [imageUrl, setImageUrl] = useState('');
 
-  console.log({state})
-
   const { toast } = useToast();
 
   useEffect(() => {
@@ -40,7 +38,7 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
       className="flex flex-col gap-5 [&>div>label]:text-slate-500 [&>div>input]:transition [&>div>textarea]:transition"
       action={formAction}
     >
-      <input name="postId" defaultValue={ state?.data?.postId } hidden/>
+      { !!state?.data?.postId && <input name="postId" defaultValue={ state?.data?.postId } hidden/> }
       <div>
         <Label htmlFor="title">Заголовок</Label>
         <Input
@@ -54,7 +52,7 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
       </div>
 
       <div>
-        <Label htmlFor="content">Заголовок</Label>
+        <Label htmlFor="content">Содержание</Label>
         <Textarea
           name="content"
           placeholder="Введите содержание поста"
@@ -77,7 +75,10 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
         {!!state?.errors?.thumbnail && (
           <p className="text-red-500 animate-shake">{state.errors.thumbnail}</p>
         )}
-        {!!imageUrl && <Image src={imageUrl} alt="post thumbnail" width={200} height={200} />}
+        {/*Логическое выражение обязательно нужно брать в скобки, иначе изображение отображаться не будет.*/}
+        { ( !!imageUrl || !!state?.data?.previousThumbnail) && (
+          <Image src={ ( imageUrl || state?.data?.previousThumbnail ) ?? '' } alt="post thumbnail" width={ 200 }
+                 height={ 200 }/> ) }
       </div>
 
       <div>

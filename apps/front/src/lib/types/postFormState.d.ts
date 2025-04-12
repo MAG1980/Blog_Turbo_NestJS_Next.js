@@ -4,6 +4,7 @@ export type PostFormState = {
     title?: string
     content?: string
     thumbnail?: File | null
+    previousThumbnail?: string
     tags?: string
     published?: boolean
   },

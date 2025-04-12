@@ -161,7 +161,7 @@ export class PostService {
     }
 
     const { postId, ...updatePostInputWithoutPostId } = updatePostInput;
-
+    console.log({updatePostInputWithoutPostId})
     return await this.prismaService.post.update({
       where: {
         id: updatePostInput.postId,

@@ -15,7 +15,8 @@ function UpdatePostContainer({ post }: Props) {
       postId: post.id,
       title: post.title,
       content: post.content,
-      thumbnail: post.thumbnail,
+      //Строка со ссылкой на предыдущее изображение.
+      previousThumbnail: post.thumbnail ?? undefined,
       //Берем свойство name из каждого TagEntity в массиве тегов и объединяем их в строку.
       tags: post.tags?.map(tag => tag.name).join(', '),
       //Преобразуем логическое значение в строку, соответствующую состоянию checked или нет.
