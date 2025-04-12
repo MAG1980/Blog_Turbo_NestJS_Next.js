@@ -63,6 +63,7 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): PostEntity!
   createTag(createTagInput: CreateTagInput!): TagEntity!
   createUser(createUserInput: CreateUserInput!): UserEntity!
+  deletePost(postId: Int!): Boolean!
   likePost(postId: Int!): Boolean!
   removeComment(id: Int!): CommentEntity!
   removeTag(id: Int!): TagEntity!

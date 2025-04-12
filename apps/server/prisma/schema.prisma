@@ -55,7 +55,9 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // При удалении поста будут удалены связанные с ним комментарии.
   post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  // При удалении автора поста из таблицы пользователей его комментарии тоже будут удалены.
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@map("comments")
@@ -75,7 +77,9 @@ model Like {
   postId    Int      @map("post_id")
   createdAt DateTime @default(now())
 
+  // При удалении пользователя, которому принадлежат "лайки", они тоже будут удалены.
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // При удалении поста, которому принадлежат "лайки", они тоже будут удалены.
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id(fields: [userId, postId], name: "userIdPostId")

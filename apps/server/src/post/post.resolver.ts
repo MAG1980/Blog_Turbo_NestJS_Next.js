@@ -111,4 +111,15 @@ export class PostResolver {
     const userId = context.req.user.id;
     return this.postService.updatePost({ userId, updatePostInput });
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Boolean!)
+  deletePost(
+    @Context()
+    context: Record<string, unknown> & { req: { user: { id: number } } },
+    @Args('postId', { type: () => Int! }) postId: number,
+  ) {
+    const userId = context.req.user.id;
+    return this.postService.deletePost({ userId, postId });
+  }
 }

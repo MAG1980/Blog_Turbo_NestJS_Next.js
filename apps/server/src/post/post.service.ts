@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { DEFAULT_PAGE_SIZE } from '../constants';
 import { CreatePostInput } from './dto/create-post.input';
@@ -149,19 +149,19 @@ export class PostService {
     userId: number;
     updatePostInput: UpdatePostInput;
   }) {
-    const post = await this.prismaService.post.findUnique({
+    const IsAuthorMatched = !!(await this.prismaService.post.findUnique({
       where: {
         id: updatePostInput.postId,
         authorId: userId,
       },
-    });
+    }));
 
-    if (!post) {
-      throw new Error('You are not the author of this post');
+    if (!IsAuthorMatched) {
+      throw new UnauthorizedException('You are not the author of this post');
     }
 
     const { postId, ...updatePostInputWithoutPostId } = updatePostInput;
-    console.log({updatePostInputWithoutPostId})
+
     return await this.prismaService.post.update({
       where: {
         id: updatePostInput.postId,
@@ -180,5 +180,23 @@ export class PostService {
         },
       },
     });
+  }
+
+  async deletePost({ userId, postId }: { userId: number; postId: number }) {
+    const IsAuthorMatched = !!(await this.prismaService.post.findUnique({
+      where: {
+        id: postId,
+        authorId: userId,
+      },
+    }));
+
+    if (!IsAuthorMatched) {
+      throw new UnauthorizedException('You are not the author of this post');
+    }
+    return !!(await this.prismaService.post.delete({
+      where: {
+        id: postId,
+      },
+    }));
   }
 }
