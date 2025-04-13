@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import SubmitButton from '@/components/SubmitButton';
 import { PostFormState } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   state: PostFormState,
@@ -27,6 +28,13 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
     }
   }, [state, toast]);
 
+  const router = useRouter();
+  useEffect(() => {
+    if (state?.ok) {
+      router.replace('/user/posts');
+    }
+  }, [state, router]);
+
   //При выборе файла с изображением преобразует путь к нему в URL и сохраняет его в стейт.
   const onChangeFileName = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -38,7 +46,7 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
       className="flex flex-col gap-5 [&>div>label]:text-slate-500 [&>div>input]:transition [&>div>textarea]:transition"
       action={formAction}
     >
-      { !!state?.data?.postId && <input name="postId" defaultValue={ state?.data?.postId } hidden/> }
+      {!!state?.data?.postId && <input name="postId" defaultValue={state?.data?.postId} hidden />}
       <div>
         <Label htmlFor="title">Заголовок</Label>
         <Input
@@ -76,9 +84,9 @@ const UpsertPostForm = ({ state, formAction }: Props) => {
           <p className="text-red-500 animate-shake">{state.errors.thumbnail}</p>
         )}
         {/*Логическое выражение обязательно нужно брать в скобки, иначе изображение отображаться не будет.*/}
-        { ( !!imageUrl || !!state?.data?.previousThumbnail) && (
-          <Image src={ ( imageUrl || state?.data?.previousThumbnail ) ?? '' } alt="post thumbnail" width={ 200 }
-                 height={ 200 }/> ) }
+        {(!!imageUrl || !!state?.data?.previousThumbnail) && (
+          <Image src={(imageUrl || state?.data?.previousThumbnail) ?? ''} alt="post thumbnail" width={200}
+                 height={200} />)}
       </div>
 
       <div>
