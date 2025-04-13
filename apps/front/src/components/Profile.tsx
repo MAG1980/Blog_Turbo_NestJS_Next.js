@@ -24,7 +24,7 @@ function Profile({ user }: Props) {
           <a href="/api/auth/sign-out">
             <span>Выйти</span>
           </a>
-          <Link href="/user/create-post">
+          <Link href="/user/posts/create">
             <span>Создать новый пост</span>
           </Link>
           <Link href="/user/posts">
@@ -72,7 +72,7 @@ function Profile({ user }: Props) {
               <ArrowRightStartOnRectangleIcon className="w-4" />
               <span>Выйти</span>
             </a>
-            <Link href="/user/create-post">
+            <Link href="/user/posts/create">
               <PencilSquareIcon className="w-4" />
               <span>Создать новый пост</span>
             </Link>

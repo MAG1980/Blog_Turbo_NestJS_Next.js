@@ -1,4 +1,4 @@
-import CreatePostContainer from '@/app/user/create-post/_components/CreatePostContainer';
+import CreatePostContainer from '@/app/user/posts/create/_components/CreatePostContainer';
 
 
 const CreatePostPage = () => {

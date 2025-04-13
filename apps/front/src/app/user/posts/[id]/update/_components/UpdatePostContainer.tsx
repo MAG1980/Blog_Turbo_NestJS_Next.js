@@ -2,7 +2,7 @@
 import { updatePost } from '@/lib/actions/post';
 import { useActionState } from 'react';
 import { PostEntity } from "server/dist/src/post/entities/post.entity";
-import UpsertPostForm from "@/app/user/create-post/_components/UpsertPostForm";
+import UpsertPostForm from "@/app/user/posts/_components/UpsertPostForm";
 
 type Props = {
   post: PostEntity
