@@ -7,12 +7,14 @@ import Link from 'next/link';
 import { useScreen } from 'usehooks-ts';
 import { useIsScrollDown } from '@/lib/hooks';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 type Props = {
   user: SessionUser
 }
 
 function Profile({ user }: Props) {
+  const [open, setOpen] = useState(false);
   const screen = useScreen();
   const isScrollDown = useIsScrollDown(0);
   return (
@@ -36,8 +38,8 @@ function Profile({ user }: Props) {
           </div>
         </div>)
       :
-      <Popover>
-        <PopoverTrigger>
+      <Popover open={open}>
+        <PopoverTrigger onClick={() => setOpen(!open)}>
           <Avatar className="w-8 h-8">
             <AvatarImage
               className={cn('border-white rounded-full  border-2 transition-colors duration-300', { 'border-blue-500': isScrollDown })}
@@ -60,7 +62,10 @@ function Profile({ user }: Props) {
         *:transiton *:rounded-md
         [&>*>*:nth-child(1)]:justify-self-center
         [&>*>span]:pr-4
-        ">
+        "
+               onClick={(open) => setOpen(!open)}
+               onMouseLeave={(open) => setOpen(!open)}
+          >
             <div className="flex justify-center items-center gap-3 py-2">
               <UserIcon className="w-4" />
               <p className="col-span-4 text-wrap">{user.name}</p>
