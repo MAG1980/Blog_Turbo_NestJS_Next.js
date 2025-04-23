@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 import { DEFAULT_PAGE_SIZE } from '../constants';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { GqlUser } from '../decorators/gql-user.decorator';
 
 @Resolver(() => PostEntity)
 export class PostResolver {
@@ -38,12 +39,10 @@ export class PostResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => [PostEntity]!)
   getPostsByJwtUser(
-    @Context()
-    context: Record<string, unknown> & { req: { user: { id: number } } },
+    @GqlUser('id') authorId: number,
     @Args('skip', { type: () => Int, nullable: true }) skip?: number,
     @Args('take', { type: () => Int, nullable: true }) take?: number,
   ) {
-    const authorId = context.req.user.id;
     return this.postService.getPostsByAuthorId({
       authorId,
       skip: skip ?? 0,
@@ -53,11 +52,7 @@ export class PostResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => Int!)
-  authorPostsCount(
-    @Context()
-    context: Record<string, unknown> & { req: { user: { id: number } } },
-  ) {
-    const authorId = context.req.user.id;
+  authorPostsCount(@GqlUser('id') authorId: number) {
     return this.postService.authorPostsCount(authorId);
   }
 
@@ -93,22 +88,18 @@ export class PostResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => PostEntity!)
   createPost(
-    @Context()
-    context: Record<string, unknown> & { req: { user: { id: number } } },
+    @GqlUser('id') authorId: number,
     @Args('createPostInput') createPostInput: CreatePostInput,
   ) {
-    const authorId = context.req.user.id;
     return this.postService.createPost({ authorId, createPostInput });
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => PostEntity!)
   updatePost(
-    @Context()
-    context: Record<string, unknown> & { req: { user: { id: number } } },
+    @GqlUser('id') userId: number,
     @Args('updatePostInput') updatePostInput: UpdatePostInput,
   ) {
-    const userId = context.req.user.id;
     return this.postService.updatePost({ userId, updatePostInput });
   }
 
