@@ -1,11 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtAuthPayload } from './types';
-import { ValidatedUser } from './types';
+import { JwtAuthPayload, ValidatedUser } from './types';
+import { SignUpInput } from './dto/sign-up.input';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService,
+  ) {}
+
+  async signUp(signUpInput: SignUpInput) {
+    const user = await this.userService.findOneByEmail(signUpInput.email);
+    if (user) {
+      throw new ConflictException('User already exists');
+    }
+    return await this.userService.create(signUpInput);
+  }
 
   async signIn(
     user: ValidatedUser,

@@ -3,7 +3,7 @@ import { SignUpFormState } from '@/lib/types';
 import { SignUpFormSchema } from '@/lib/zodSchemas';
 import { fetchGraphQL } from '@/lib/fetch.GraphQL';
 import { print } from 'graphql/index';
-import { CREATE_USER } from '@/lib/gql/mutations/auth';
+import { SIGN_UP } from '@/lib/gql/mutations/auth';
 import { redirect } from 'next/navigation';
 
 export const signUp =
@@ -24,12 +24,12 @@ export const signUp =
       };
     }
 
-    const data = await fetchGraphQL(print(CREATE_USER), {
-      createUserInput: {
+    const data = await fetchGraphQL(print(SIGN_UP), {
+      signUpInput: {
         ...validatedFields.data,
       },
     }) as {
-      createUser: {
+      signUp: {
         id: number
         name: string
       }

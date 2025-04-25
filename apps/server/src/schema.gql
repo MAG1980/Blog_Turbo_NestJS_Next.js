@@ -37,14 +37,6 @@ input CreateTagInput {
   exampleField: Int!
 }
 
-input CreateUserInput {
-  avatar: String
-  bio: String
-  email: String!
-  name: String!
-  password: String!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -62,13 +54,13 @@ type Mutation {
   createComment(createCommentInput: CreateCommentInput!): CommentEntity!
   createPost(createPostInput: CreatePostInput!): PostEntity!
   createTag(createTagInput: CreateTagInput!): TagEntity!
-  createUser(createUserInput: CreateUserInput!): UserEntity!
   deletePost(postId: Int!): Boolean!
   likePost(postId: Int!): Boolean!
   removeComment(id: Int!): CommentEntity!
   removeTag(id: Int!): TagEntity!
   removeUser(id: Int!): UserEntity!
   signIn(signInInput: SignInInput!): SignInResponseEntity!
+  signUp(signUpInput: SignUpInput!): UserEntity!
   unlikePost(postId: Int!): Boolean!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
   updatePost(updatePostInput: UpdatePostInput!): PostEntity!
@@ -120,6 +112,14 @@ type SignInResponseEntity {
   avatar: String
   id: Int!
   name: String!
+}
+
+input SignUpInput {
+  avatar: String
+  bio: String
+  email: String!
+  name: String!
+  password: String!
 }
 
 type TagEntity {

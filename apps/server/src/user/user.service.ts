@@ -41,7 +41,7 @@ export class UserService {
   }
 
   async findOneByEmail(email: string) {
-    const user = await this.prismaService.user.findUnique({
+    return await this.prismaService.user.findUnique({
       where: { email },
       select: {
         id: true,
@@ -50,20 +50,19 @@ export class UserService {
         password: true,
       },
     });
-
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    return user;
   }
 
   async validateLocalUser({
     email,
     password,
   }: SignInInput): Promise<ValidatedUser> {
-    const { password: hashedPassword, ...userDataWithoutPassword } =
-      await this.findOneByEmail(email);
+    const user = await this.findOneByEmail(email);
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const { password: hashedPassword, ...userDataWithoutPassword } = user;
 
     const isPasswordMatched = await verify(hashedPassword, password);
 
