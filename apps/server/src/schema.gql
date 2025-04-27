@@ -109,9 +109,7 @@ input SignInInput {
 
 type SignInResponseEntity {
   accessToken: String!
-  avatar: String
-  id: Int!
-  name: String!
+  user: ValidatedUserEntity!
 }
 
 input SignUpInput {
@@ -171,4 +169,10 @@ type UserEntity {
   password: String
   posts: [PostEntity!]!
   updatedAt: DateTime!
+}
+
+type ValidatedUserEntity {
+  avatar: String
+  id: Int!
+  name: String!
 }

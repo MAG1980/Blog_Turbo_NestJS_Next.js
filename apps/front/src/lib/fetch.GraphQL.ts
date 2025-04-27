@@ -4,6 +4,7 @@ export const fetchGraphQL = async (query: string, variables = {}) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials': 'true',
       // 'Apollo-Require-Preflight': 'true',
     },
     body: JSON.stringify({

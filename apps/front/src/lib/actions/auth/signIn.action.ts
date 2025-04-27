@@ -26,9 +26,11 @@ export const signIn = async (state: SignInFormState, formData: FormData): Promis
     },
   }) as unknown as {
     signIn: {
-      id: number
-      name: string
-      avatar: string
+      user: {
+        id: number
+        name: string
+        avatar: string
+      }
       accessToken: string
     }
   } & { errors?: { message: string }[] };
@@ -42,14 +44,16 @@ export const signIn = async (state: SignInFormState, formData: FormData): Promis
 
   console.log({ data });
 
+/*
   await createSession({
     user: {
-      id: data.signIn.id,
-      name: data.signIn.name,
-      avatar: data.signIn.avatar,
+      id: data.signIn.user.id,
+      name: data.signIn.user.name,
+      avatar: data.signIn.user.avatar,
     },
     accessToken: data.signIn.accessToken,
   });
+*/
 
   revalidatePath('/');
   redirect('/');

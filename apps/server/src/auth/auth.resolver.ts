@@ -1,4 +1,10 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  GraphQLExecutionContext,
+  Mutation,
+  Resolver,
+} from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { SignInInput } from './dto/sign-in.input';
 import { SignInResponseEntity } from './entities/sign-in-response.entity';
@@ -21,8 +27,18 @@ export class AuthResolver {
     return this.authService.signUp(signUpInput);
   }
   @Mutation(() => SignInResponseEntity)
-  async signIn(@Args('signInInput') signInInput: SignInInput) {
-    const user = await this.userService.validateLocalUser(signInInput);
-    return this.authService.signIn(user);
+  async signIn(
+    @Context() context: GraphQLExecutionContext & { res: any },
+    @Args('signInInput') signInInput: SignInInput,
+  ) {
+    const validatedUser = await this.userService.validateLocalUser(signInInput);
+    const { accessToken } = await this.authService.generateToken(
+      validatedUser.id,
+    );
+
+    context.res.cookie('session', `'${accessToken}`, {
+      httpOnly: true,
+    });
+    return { user: { ...validatedUser }, accessToken };
   }
 }

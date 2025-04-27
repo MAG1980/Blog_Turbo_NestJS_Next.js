@@ -1,15 +1,10 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { ValidatedUserEntity } from './validated-user.entity';
 
 @ObjectType()
 export class SignInResponseEntity {
-  @Field(() => Int)
-  id: number;
-
   @Field()
-  name: string;
-
-  @Field({ nullable: true })
-  avatar?: string;
+  user: ValidatedUserEntity;
 
   @Field()
   accessToken: string;
